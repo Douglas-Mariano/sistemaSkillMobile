@@ -1,5 +1,5 @@
 import axios, {AxiosError} from 'axios';
-import {ApiResponse, ApiError, UsuarioRequest, SkillRequest} from './Types';
+import {ApiResponse, ApiError, Usuario, Skill} from './Types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const api = axios.create({
@@ -29,7 +29,7 @@ export const getUsuarioPorId = async (id: number): Promise<ApiResponse> => {
   }
 };
 
-export const adicionarUsuario = async (usuario: UsuarioRequest): Promise<ApiResponse> => {
+export const adicionarUsuario = async (usuario: Usuario): Promise<ApiResponse> => {
   try {
     const response = await api.post('/usuarios', usuario);
     return response;
@@ -50,7 +50,7 @@ export const logarUsuario = async (login: string, senha: string): Promise<ApiRes
   }
 };
 
-export const adicionarSkill = async (skill: SkillRequest): Promise<ApiResponse> => {
+export const adicionarSkill = async (skill: Skill): Promise<ApiResponse> => {
   try {
     const response = await api.post('/skills', skill);
     return response;
@@ -60,7 +60,7 @@ export const adicionarSkill = async (skill: SkillRequest): Promise<ApiResponse> 
   }
 };
 
-export const atualizarSkill = async (id: number, skill: SkillRequest): Promise<ApiResponse> => {
+export const atualizarSkill = async (id: number, skill: Skill): Promise<ApiResponse> => {
   try {
     const response = await api.put(`/skills/${id}`, skill);
     return response;

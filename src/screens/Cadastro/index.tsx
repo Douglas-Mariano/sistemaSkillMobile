@@ -87,11 +87,6 @@ const Cadastro = ({ navigation }: any) => {
             }
             mostrarSenha={() => setMostrarSenha(!mostrarSenha)}
           />
-          <CheckBox
-            title="Lembrar-me"
-            checked={salvo}
-            onPress={() => setSalvo(!salvo)}
-          />
         </View>
       </ScrollView>
       <View style={styles.content}>
