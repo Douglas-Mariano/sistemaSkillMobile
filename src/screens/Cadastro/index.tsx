@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { CheckBox } from "react-native-elements";
 import {
   faUser,
   faEnvelope,
@@ -16,16 +15,42 @@ import LinkBar from "../../components/LinkBar";
 import styles from "./styles";
 import HeaderLoginCadastro from "../../components/HeaderLoginCadastro";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { Usuario } from "../../service/api/Types";
+import { adicionarUsuario } from "../../service/api/Api";
 
 const Cadastro = ({ navigation }: any) => {
-  const [name, setName] = useState("");
+  const [nome, setNome] = useState("");
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
-  const [salvo, setSalvo] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(true);
 
-  const handleCadastro = async () => {};
+  const handleCadastro = async () => {
+    if (
+      nome.length < 3 ||
+      login.length < 10 ||
+      senha.length < 3 ||
+      senha != confirmarSenha
+    ) {
+      Alert.alert(
+        "Campos obrigatorios",
+        "Por favor, preencha todos os campos corretamente."
+      );
+      return null;
+    }
+    await adicionarUsuario({ nome, login, senha } as Usuario)
+      .then((res) => {
+        if (res) {
+          navigation.navigate("Login");
+        }
+      })
+      .catch((error) => console.error("Erro ao cadastrar usuário:", error));
+
+    setNome("");
+    setLogin("");
+    setSenha("");
+    setConfirmarSenha("");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,8 +64,8 @@ const Cadastro = ({ navigation }: any) => {
           <Input
             title="Nome Completo"
             style={styles.input}
-            value={name}
-            onChangeText={(text) => setName(text)}
+            value={nome}
+            onChangeText={(text) => setNome(text)}
             icon={faUser}
           />
           <Input
@@ -88,14 +113,16 @@ const Cadastro = ({ navigation }: any) => {
             mostrarSenha={() => setMostrarSenha(!mostrarSenha)}
           />
         </View>
+        <View style={styles.content}>
+          <Button
+            buttonStyle={{ backgroundColor: GlobalStyle.color3.color }}
+            onPress={handleCadastro}
+          >
+            <Text style={styles.textoBotao}>Finalizar</Text>
+          </Button>
+        </View>
       </ScrollView>
       <View style={styles.content}>
-        <Button
-          buttonStyle={{ backgroundColor: GlobalStyle.color3.color }}
-          onPress={handleCadastro}
-        >
-          <Text style={styles.textoBotao}>Finalizar</Text>
-        </Button>
         <LinkBar
           questionText="Já tem Cadastro? "
           linkText="Logar-se"

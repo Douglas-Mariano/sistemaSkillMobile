@@ -11,7 +11,6 @@ const TabRoutes = () => {
         <Tab.Screen
           name="Login"
           component={Login}
-          options={{ tabBarLabel: "Login" }}
         />
       </Tab.Navigator>
     </SkillsProvider>

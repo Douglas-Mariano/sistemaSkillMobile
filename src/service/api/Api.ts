@@ -1,14 +1,14 @@
-import axios, {AxiosError} from 'axios';
-import {ApiResponse, ApiError, Usuario, Skill} from './Types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios, { AxiosError } from "axios";
+import { ApiResponse, ApiError, Usuario, Skill } from "./Types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: "http://localhost:8080",
 });
 
 api.interceptors.request.use(
   async (config) => {
-    const token = await AsyncStorage.getItem('token');
+    const token = await AsyncStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,21 +29,29 @@ export const getUsuarioPorId = async (id: number): Promise<ApiResponse> => {
   }
 };
 
-export const adicionarUsuario = async (usuario: Usuario): Promise<ApiResponse> => {
+export const adicionarUsuario = async (
+  usuario: Usuario
+): Promise<ApiResponse> => {
   try {
-    const response = await api.post('/usuarios', usuario);
-    return response;
+    const response = await api.post("/usuarios", usuario);
+    return response.data;
   } catch (error) {
     const apiError = error as AxiosError<ApiError>;
-    throw apiError.response?.data;
+    throw (
+      apiError.response?.data || {
+        status: 500,
+        statusText: "Erro interno do servidor",
+      }
+    );
   }
 };
 
-export const logarUsuario = async (login: string, senha: string): Promise<ApiResponse> => {
+export const logarUsuario = async (login: string, senha: string): Promise<string> => {
   try {
-    const response = await api.post('/usuarios/login', { login, senha });
-    await AsyncStorage.setItem('token', response.data.token);
-    return response;
+    const response = await api.post("/usuarios/login", { login, senha });
+    const token = response.data.token;
+    await AsyncStorage.setItem("token", token);
+    return token;
   } catch (error) {
     const apiError = error as AxiosError<ApiError>;
     throw apiError.response?.data;
@@ -52,7 +60,7 @@ export const logarUsuario = async (login: string, senha: string): Promise<ApiRes
 
 export const adicionarSkill = async (skill: Skill): Promise<ApiResponse> => {
   try {
-    const response = await api.post('/skills', skill);
+    const response = await api.post("/skills", skill);
     return response;
   } catch (error) {
     const apiError = error as AxiosError<ApiError>;
@@ -60,7 +68,10 @@ export const adicionarSkill = async (skill: Skill): Promise<ApiResponse> => {
   }
 };
 
-export const atualizarSkill = async (id: number, skill: Skill): Promise<ApiResponse> => {
+export const atualizarSkill = async (
+  id: number,
+  skill: Skill
+): Promise<ApiResponse> => {
   try {
     const response = await api.put(`/skills/${id}`, skill);
     return response;

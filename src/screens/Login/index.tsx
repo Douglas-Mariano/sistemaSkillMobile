@@ -16,6 +16,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import styles from "./styles";
 import HeaderLoginCadastro from "../../components/HeaderLoginCadastro";
+import { logarUsuario } from "../../service/api/Api";
 
 const Login = ({ navigation }: any) => {
   const [login, setLogin] = useState("");
@@ -24,15 +25,22 @@ const Login = ({ navigation }: any) => {
   const [mostrarSenha, setMostrarSenha] = useState(true);
 
   const handleLogin = async () => {
-    if (salvo) {
-      await AsyncStorage.setItem("login", login);
-      await AsyncStorage.setItem("senha", senha);
-    } else {
-      await AsyncStorage.removeItem("login");
-      await AsyncStorage.removeItem("senha");
+    try {
+      const token = await logarUsuario(login, senha);
+      console.log("Token obtido:", token);
+  
+      if (salvo) {
+        await AsyncStorage.setItem("login", login);
+        await AsyncStorage.setItem("senha", senha);
+      } else {
+        await AsyncStorage.removeItem("login");
+        await AsyncStorage.removeItem("senha");
+      }
+  
+      navigation.navigate('Cadastro');
+    } catch (error) {
+      console.error("Erro ao fazer login:", error);
     }
-
-    navigation.navigate('Home');
   };
 
   return (
