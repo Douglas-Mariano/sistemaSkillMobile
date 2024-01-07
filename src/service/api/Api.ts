@@ -1,16 +1,18 @@
 import axios, { AxiosError } from "axios";
-import { ApiResponse, ApiError, Usuario, Skill } from "./Types";
+import { ApiResponse, ApiError, Usuario, Skills, SkillsUsuario } from "./Types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const api = axios.create({
   baseURL: "http://localhost:8080",
+  timeout: 1000,
+  headers: {"Content-Type": "application/json"},
 });
 
 api.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem("token");
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `${token}`;
     }
     return config;
   },
@@ -22,6 +24,7 @@ api.interceptors.request.use(
 export const getUsuarioPorId = async (id: number): Promise<ApiResponse> => {
   try {
     const response = await api.get(`/usuarios/${id}`);
+    console.log(response)
     return response;
   } catch (error) {
     const apiError = error as AxiosError<ApiError>;
@@ -46,11 +49,18 @@ export const adicionarUsuario = async (
   }
 };
 
-export const logarUsuario = async (login: string, senha: string): Promise<string> => {
+export const logarUsuario = async (
+  login: string,
+  senha: string
+): Promise<string> => {
   try {
     const response = await api.post("/usuarios/login", { login, senha });
     const token = response.data.token;
+    const userId = response.data.usuario.id;
+
     await AsyncStorage.setItem("token", token);
+    await AsyncStorage.setItem("userId", String(userId));
+
     return token;
   } catch (error) {
     const apiError = error as AxiosError<ApiError>;
@@ -58,7 +68,54 @@ export const logarUsuario = async (login: string, senha: string): Promise<string
   }
 };
 
-export const adicionarSkill = async (skill: Skill): Promise<ApiResponse> => {
+export const adicionarSkillsUsuario = async (
+  skillsUsuario: SkillsUsuario
+): Promise<ApiResponse<SkillsUsuario>> => {
+  try {
+    const response = await api.post("/skillsUsuario", skillsUsuario);
+    return response.data;
+  } catch (error) {
+    const apiError = error as AxiosError<ApiError>;
+    throw (
+      apiError.response?.data || {
+        status: 500,
+        statusText: "Erro interno do servidor",
+      }
+    );
+  }
+};
+
+export const atualizarSkillsUsuario = async (
+  id: number,
+  skillsUsuario: SkillsUsuario
+): Promise<ApiResponse<SkillsUsuario>> => {
+  try {
+    const response = await api.put(`/skillsUsuario/${id}`, skillsUsuario);
+    return response.data;
+  } catch (error) {
+    const apiError = error as AxiosError<ApiError>;
+    throw (
+      apiError.response?.data || {
+        status: 500,
+        statusText: "Erro interno do servidor",
+      }
+    );
+  }
+};
+
+export const deletarSkillsUsuario = async (
+  id: number
+): Promise<ApiResponse<void>> => {
+  try {
+    const response = await api.delete(`/skillsUsuario/${id}`);
+    return response.data;
+  } catch (error) {
+    const apiError = error as AxiosError<ApiError>;
+    throw apiError.response?.data;
+  }
+};
+
+export const adicionarSkill = async (skill: Skills): Promise<ApiResponse> => {
   try {
     const response = await api.post("/skills", skill);
     return response;
@@ -70,7 +127,7 @@ export const adicionarSkill = async (skill: Skill): Promise<ApiResponse> => {
 
 export const atualizarSkill = async (
   id: number,
-  skill: Skill
+  skill: Skills
 ): Promise<ApiResponse> => {
   try {
     const response = await api.put(`/skills/${id}`, skill);

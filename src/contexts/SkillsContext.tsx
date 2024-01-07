@@ -1,13 +1,15 @@
 import { createContext, useState } from "react";
-import { Usuario, Skill, ApiResponse, ApiError } from "../service/api/Types";
+import { Usuario, Skills, ApiResponse, ApiError, SkillsUsuario } from "../service/api/Types";
 
 interface SkillsContextProps {
   usuario: Usuario;
-  skill: Skill;
+  skills: Skills;
+  skillsUsuario: SkillsUsuario;
   apiResponse: ApiResponse;
   apiError: ApiError;
   setUsuario: React.Dispatch<React.SetStateAction<Usuario>>;
-  setSkill: React.Dispatch<React.SetStateAction<Skill>>;
+  setSkills: React.Dispatch<React.SetStateAction<Skills>>;
+  setSkillsUsuario: React.Dispatch<React.SetStateAction<SkillsUsuario>>;
   setApiResponse: React.Dispatch<React.SetStateAction<ApiResponse>>;
   setApiError: React.Dispatch<React.SetStateAction<ApiError>>;
 }
@@ -24,17 +26,34 @@ export const SkillsContext = createContext<SkillsContextProps>({
     senha: "",
     skills: [],
   },
-  skill: {
+  skills: {
     id: 0,
     nome: "",
     descricao: "",
-    level: 0,
     imagem: "",
+  },
+  skillsUsuario: {
+    id: 0,
+    level: 0,
+    usuario: {
+      id: 0,
+      nome: "",
+      login: "",
+      senha: "",
+      skills: [],
+    },
+    skills: {
+      id: 0,
+      nome: "",
+      descricao: "",
+      imagem: "",
+    },
   },
   apiResponse: { data: null, status: 0, statusText: "" },
   apiError: { response: undefined },
   setUsuario: () => {},
-  setSkill: () => {},
+  setSkills: () => {},
+  setSkillsUsuario: () => {},
   setApiResponse: () => {},
   setApiError: () => {},
 });
@@ -47,12 +66,28 @@ export const SkillsProvider = ({ children }: SkillsProviderProps) => {
     senha: "",
     skills: [],
   });
-  const [skill, setSkill] = useState<Skill>({
+  const [skills, setSkills] = useState<Skills>({
     id: 0,
     nome: "",
     descricao: "",
-    level: 0,
     imagem: "",
+  });
+  const [skillsUsuario, setSkillsUsuario] = useState<SkillsUsuario>({
+    id: 0,
+    level: 0,
+    usuario: {
+      id: 0,
+      nome: "",
+      login: "",
+      senha: "",
+      skills: [],
+    },
+    skills: {
+      id: 0,
+      nome: "",
+      descricao: "",
+      imagem: "",
+    },
   });
   const [apiResponse, setApiResponse] = useState<ApiResponse>({
     data: null,
@@ -65,11 +100,13 @@ export const SkillsProvider = ({ children }: SkillsProviderProps) => {
     <SkillsContext.Provider
       value={{
         usuario,
-        skill,
+        skills,
+        skillsUsuario,
         apiResponse,
         apiError,
         setUsuario,
-        setSkill,
+        setSkills,
+        setSkillsUsuario,
         setApiResponse,
         setApiError,
       }}

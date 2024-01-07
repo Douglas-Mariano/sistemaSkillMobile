@@ -27,7 +27,6 @@ const Login = ({ navigation }: any) => {
   const handleLogin = async () => {
     try {
       const token = await logarUsuario(login, senha);
-      console.log("Token obtido:", token);
   
       if (salvo) {
         await AsyncStorage.setItem("login", login);
@@ -37,7 +36,7 @@ const Login = ({ navigation }: any) => {
         await AsyncStorage.removeItem("senha");
       }
   
-      navigation.navigate('Cadastro');
+      navigation.navigate('Home');
     } catch (error) {
       console.error("Erro ao fazer login:", error);
     }

@@ -1,14 +1,13 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { SkillsProvider } from "../contexts/SkillsContext";
-import StackRoutes from "./StackRoute";
+import React from 'react';
+import { SkillsProvider } from '../contexts/SkillsContext';
+import StackRoute from './StackRoute';
 
 const Routes: React.FC = () => {
   return (
-    <NavigationContainer>
-      <SkillsProvider>
-        <StackRoutes />
-      </SkillsProvider>
-    </NavigationContainer>
+    <SkillsProvider>
+      <StackRoute />
+    </SkillsProvider>
   );
 };
+
 export default Routes;

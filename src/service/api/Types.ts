@@ -3,19 +3,25 @@ export interface Usuario {
   nome: string;
   login: string;
   senha: string;
-  skills: Skill[];
+  skills: SkillsUsuario[];
 }
 
-export interface Skill {
+export interface Skills {
   id: number;
   nome: string;
   descricao?: string;
-  level: number;
   imagem: string;
 }
 
-export interface ApiResponse {
-  data: any;
+export interface SkillsUsuario {
+  id: number;
+  level: number;
+  usuario: Usuario;
+  skills: Skills;
+}
+
+export interface ApiResponse<T = any> {
+  data: T;
   status: number;
   statusText: string;
 }

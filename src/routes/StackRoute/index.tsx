@@ -1,42 +1,22 @@
-import { StackActions, useNavigation } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import TabRoutes from "../TabRoute";
-import Login from "../../screens/Login";
-import Cadastro from "../../screens/Cadastro";
-import { TouchableOpacity } from "react-native";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import Login from '../../screens/Login';
+import Cadastro from '../../screens/Cadastro';
+import Home from '../../screens/Home';
 
-export const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
-const StackRoutes = () => {
-  const navigation = useNavigation();
-
+const StackRoute: React.FC = () => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerLeft: () => (
-          <TouchableOpacity
-            onPress={() => navigation.dispatch(StackActions.pop())}
-          >
-            <FontAwesomeIcon
-              icon={faArrowLeft}
-              size={24}
-              style={{ margin: 10 }}
-            />
-          </TouchableOpacity>
-        ),
-      }}
-    >
-      <Stack.Screen
-        name="Tab"
-        component={TabRoutes}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Cadastro" component={Cadastro} />
-    </Stack.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Cadastro" component={Cadastro} />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
-export default StackRoutes;
+
+export default StackRoute;
