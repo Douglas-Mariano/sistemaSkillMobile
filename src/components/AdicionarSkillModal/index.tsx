@@ -13,7 +13,11 @@ interface AdicionarSkillModalProps {
   onAdicionarSkill: (novaSkill: Skills, level: number) => void;
 }
 
-const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({ isVisible, onClose, onAdicionarSkill }) => {
+const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
+  isVisible,
+  onClose,
+  onAdicionarSkill,
+}) => {
   const [nomeSkill, setNomeSkill] = useState("");
   const [level, setLevel] = useState("");
   const [skills, setSkills] = useState<Skills[]>([]);
@@ -57,7 +61,7 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({ isVisible, on
       onRequestClose={onClose}
     >
       <View style={styles.modalContainer}>
-        <Text style={GlobalStyle.titulo}>
+        <Text style={[GlobalStyle.titulo, styles.modalTitle]}>
           Adicionar Nova Skill
         </Text>
         <Picker
@@ -78,18 +82,38 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({ isVisible, on
         />
         <View style={styles.botaoContainer}>
           <TouchableOpacity
-            style={styles.botaoAdicionar}
+            style={[
+              styles.botaoAdicionar,
+              { backgroundColor: GlobalStyle.lightGray.color },
+            ]}
             onPress={handleAdicionar}
           >
-            <Icon name="check" size={25} color="green" />
-            <Text style={[styles.textoBotao, { color: "green" }]}></Text>
+            <Icon name="check" size={25} color={GlobalStyle.mediumGray.color} />
+            <Text
+              style={[
+                styles.textoBotao,
+                { color: GlobalStyle.mediumGray.color },
+              ]}
+            >
+              Confirmar
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.botaoCancelar}
+            style={[
+              styles.botaoCancelar,
+              { backgroundColor: GlobalStyle.lightGray.color },
+            ]}
             onPress={onClose}
           >
-            <Icon name="times" size={25} color="red" />
-            <Text style={[styles.textoBotao, { color: "red" }]}></Text>
+            <Icon name="times" size={25} color={GlobalStyle.mediumGray.color} />
+            <Text
+              style={[
+                styles.textoBotao,
+                { color: GlobalStyle.mediumGray.color },
+              ]}
+            >
+              Cancelar
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

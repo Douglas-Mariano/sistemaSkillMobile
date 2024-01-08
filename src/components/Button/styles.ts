@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import GlobalStyle from "../../globalStyles/GlobalStyle";
 
 const styles = StyleSheet.create({
   button: {
@@ -9,6 +10,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     margin: 5,
+    backgroundColor: GlobalStyle.lightGray.color,
   },
 });
+
 export default styles;

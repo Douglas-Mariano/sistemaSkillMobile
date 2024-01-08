@@ -13,7 +13,6 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import LinkBar from "../../components/LinkBar";
 import styles from "./styles";
-import HeaderLoginCadastro from "../../components/HeaderLoginCadastro";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Usuario } from "../../service/api/Types";
 import { adicionarUsuario } from "../../service/api/Api";
@@ -30,21 +29,23 @@ const Cadastro = ({ navigation }: any) => {
       nome.length < 3 ||
       login.length < 10 ||
       senha.length < 3 ||
-      senha != confirmarSenha
+      senha !== confirmarSenha
     ) {
       Alert.alert(
-        "Campos obrigatorios",
+        "Campos obrigatórios",
         "Por favor, preencha todos os campos corretamente."
       );
       return null;
     }
-    await adicionarUsuario({ nome, login, senha } as Usuario)
-      .then((res) => {
-        if (res) {
-          navigation.navigate("Login");
-        }
-      })
-      .catch((error) => console.error("Erro ao cadastrar usuário:", error));
+
+    try {
+      const res = await adicionarUsuario({ nome, login, senha } as Usuario);
+      if (res) {
+        navigation.navigate("Login");
+      }
+    } catch (error) {
+      console.error("Erro ao cadastrar usuário:", error);
+    }
 
     setNome("");
     setLogin("");
@@ -56,9 +57,7 @@ const Cadastro = ({ navigation }: any) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.content}>
-          <HeaderLoginCadastro>
-            <Text style={styles.titulo}>Cadastro</Text>
-          </HeaderLoginCadastro>
+          <Text style={styles.titulo}>Cadastro</Text>
         </View>
         <View style={styles.content}>
           <Input
@@ -115,7 +114,7 @@ const Cadastro = ({ navigation }: any) => {
         </View>
         <View style={styles.content}>
           <Button
-            buttonStyle={{ backgroundColor: GlobalStyle.color3.color }}
+            buttonStyle={{ backgroundColor: GlobalStyle.lightGray.color }}
             onPress={handleCadastro}
           >
             <Text style={styles.textoBotao}>Finalizar</Text>

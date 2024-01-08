@@ -13,13 +13,16 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    borderColor: GlobalStyle.color5.color,
     paddingHorizontal: 10,
     marginBottom: 10,
+    borderWidth: 1,
+  },
+  inputContainerCustom: {
+    borderColor: GlobalStyle.mediumGray.color,
   },
   icon: {
     marginRight: 10,
-    color: GlobalStyle.color1.color,
+    color: GlobalStyle.darkGray.color,
   },
   monstrarSenha: {
     position: "absolute",
@@ -29,4 +32,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
 export default styles;

@@ -1,5 +1,5 @@
-import { StatusBar } from "expo-status-bar";
-import Routes from "./src/routes";
+import { StatusBar } from 'expo-status-bar';
+import Routes from './src/routes';
 
 export default function App() {
   return (
@@ -7,4 +7,5 @@ export default function App() {
       <Routes />
       <StatusBar style="auto" />
     </>
-  )}
+  );
+}

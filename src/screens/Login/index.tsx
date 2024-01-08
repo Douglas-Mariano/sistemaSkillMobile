@@ -15,7 +15,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import styles from "./styles";
-import HeaderLoginCadastro from "../../components/HeaderLoginCadastro";
 import { logarUsuario } from "../../service/api/Api";
 
 const Login = ({ navigation }: any) => {
@@ -27,7 +26,7 @@ const Login = ({ navigation }: any) => {
   const handleLogin = async () => {
     try {
       const token = await logarUsuario(login, senha);
-  
+
       if (salvo) {
         await AsyncStorage.setItem("login", login);
         await AsyncStorage.setItem("senha", senha);
@@ -35,8 +34,8 @@ const Login = ({ navigation }: any) => {
         await AsyncStorage.removeItem("login");
         await AsyncStorage.removeItem("senha");
       }
-  
-      navigation.navigate('Home');
+
+      navigation.navigate("Home");
     } catch (error) {
       console.error("Erro ao fazer login:", error);
     }
@@ -46,9 +45,9 @@ const Login = ({ navigation }: any) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.content}>
-          <HeaderLoginCadastro>
-            <Text style={styles.titulo}>Login</Text>
-          </HeaderLoginCadastro>
+          <Text style={styles.titulo}>
+            Login
+          </Text>
         </View>
         <View style={styles.content}>
           <Input
@@ -85,10 +84,10 @@ const Login = ({ navigation }: any) => {
       </ScrollView>
       <View style={styles.content}>
         <Button
-          buttonStyle={{ backgroundColor: GlobalStyle.color5.color }}
+          buttonStyle={[styles.button, { backgroundColor: GlobalStyle.lightGray.color }]}
           onPress={handleLogin}
         >
-          <Text>Login</Text>
+          <Text style={styles.textoBotao}>Login</Text>
         </Button>
         <LinkBar
           questionText="Não tem Cadastro? "

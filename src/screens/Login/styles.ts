@@ -4,7 +4,7 @@ import GlobalStyle from "../../globalStyles/GlobalStyle";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-around",
+    justifyContent: "center",
     marginTop: 50
   },
   content: {
@@ -16,21 +16,21 @@ const styles = StyleSheet.create({
     fontSize: 36,
     lineHeight: 36,
     fontWeight: "bold",
-    color: GlobalStyle.color2.color,
+    color: GlobalStyle.darkGray.color,
   },
   input: {
     marginTop: 7,
-    backgroundColor: GlobalStyle.color5.color,
-    borderColor: GlobalStyle.color3.color,
-    opacity: 50,
     marginBottom: 8,
     paddingHorizontal: 10,
+    backgroundColor: GlobalStyle.veryLightGray.color,
+    borderColor: GlobalStyle.mediumGray.color,
+  },
+  button: {
+    backgroundColor: GlobalStyle.lightGray.color,
   },
   textoBotao: {
-    color: GlobalStyle.color5.color,
     fontWeight: "bold",
-    textShadowRadius: 5,
-    textShadowColor: GlobalStyle.color1.color,
   },
 });
+
 export default styles;

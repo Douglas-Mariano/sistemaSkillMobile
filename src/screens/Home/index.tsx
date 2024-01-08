@@ -130,7 +130,12 @@ const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={[GlobalStyle.titulo, { color: GlobalStyle.color5.color }]}>
+        <Text
+          style={[
+            GlobalStyle.titulo,
+            { color: GlobalStyle.veryLightGray.color },
+          ]}
+        >
           Skills
         </Text>
         <TouchableOpacity

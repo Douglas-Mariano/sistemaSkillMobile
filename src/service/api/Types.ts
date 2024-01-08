@@ -1,9 +1,9 @@
 export interface Usuario {
-  id: number;
+  id?: number;
   nome: string;
   login: string;
   senha: string;
-  skills: SkillsUsuario[];
+  skills?: SkillsUsuario[];
 }
 
 export interface Skills {

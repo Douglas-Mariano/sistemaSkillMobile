@@ -67,6 +67,16 @@ export const logarUsuario = async (
   }
 };
 
+export const deslogar = async (): Promise<void> => {
+  try {
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("userId");
+  } catch (error) {
+    console.error("Erro ao deslogar:", error);
+    throw error;
+  }
+};
+
 export const adicionarSkillsUsuario = async (
   skillsUsuario: SkillsUsuario
 ): Promise<ApiResponse<SkillsUsuario>> => {

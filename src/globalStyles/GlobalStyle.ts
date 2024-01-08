@@ -1,20 +1,20 @@
 import { StyleSheet } from "react-native";
 
 const GlobalStyle = StyleSheet.create({
-  color1: {
-    color: "#1f1f20",
+  darkGray: {
+    color: "#333333",
   },
-  color2: {
-    color: "#4D3EFC",
+  primaryPurple: {
+    color: "#555555",
   },
-  color3: {
-    color: "#8C83ED",
+  mediumGray: {
+    color: "#777777",
   },
-  color4: {
-    color: "#606d80",
+  lightGray: {
+    color: "#999999",
   },
-  color5: {
-    color: "#F6FCFF",
+  veryLightGray: {
+    color: "#CCCCCC",
   },
   titulo: {
     fontSize: 20,
@@ -24,4 +24,5 @@ const GlobalStyle = StyleSheet.create({
     fontSize: 14,
   },
 });
+
 export default GlobalStyle;

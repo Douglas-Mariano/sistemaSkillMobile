@@ -33,9 +33,15 @@ const Input = ({
   return (
     <View>
       <Text style={GlobalStyle.texto}>{title}</Text>
-      <View style={styles.inputContainer}>
+      <View
+        style={[
+          styles.inputContainer,
+          styles.inputContainerCustom,
+          customStyle,
+        ]}
+      >
         <FontAwesomeIcon icon={icon} size={20} style={styles.icon} />
-        <TextInput style={[styles.input, style, customStyle]} {...props} />
+        <TextInput style={[styles.input, style]} {...props} />
         {rightIcon && (
           <TouchableOpacity style={styles.monstrarSenha} onPress={mostrarSenha}>
             {rightIcon}
