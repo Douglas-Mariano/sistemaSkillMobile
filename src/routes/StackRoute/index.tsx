@@ -12,7 +12,7 @@ const StackRoute: React.FC = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Login"
         screenOptions={{
           header: () => <Header />,
         }}
