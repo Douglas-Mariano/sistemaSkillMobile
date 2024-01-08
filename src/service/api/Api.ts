@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const api = axios.create({
   baseURL: "http://localhost:8080",
   timeout: 1000,
-  headers: {"Content-Type": "application/json"},
+  headers: { "Content-Type": "application/json" },
 });
 
 api.interceptors.request.use(
@@ -24,7 +24,6 @@ api.interceptors.request.use(
 export const getUsuarioPorId = async (id: number): Promise<ApiResponse> => {
   try {
     const response = await api.get(`/usuarios/${id}`);
-    console.log(response)
     return response;
   } catch (error) {
     const apiError = error as AxiosError<ApiError>;
@@ -112,6 +111,21 @@ export const deletarSkillsUsuario = async (
   } catch (error) {
     const apiError = error as AxiosError<ApiError>;
     throw apiError.response?.data;
+  }
+};
+
+export const obterTodasSkills = async (): Promise<Skills[]> => {
+  try {
+    const response = await api.get("/skills");
+    return response.data;
+  } catch (error) {
+    const apiError = error as AxiosError<ApiError>;
+    throw (
+      apiError.response?.data || {
+        status: 500,
+        statusText: "Erro interno do servidor",
+      }
+    );
   }
 };
 

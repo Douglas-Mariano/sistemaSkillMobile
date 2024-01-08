@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 16,
     padding: 16,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: "#F5F5F5",
     borderRadius: 8,
     borderWidth: 1,
     borderColor: GlobalStyle.color1.color,
@@ -83,6 +83,11 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     marginLeft: 8,
+  },
+  adicionarSkillButton: {
+    position: "absolute",
+    right: 10,
+    top: 10,
   },
 });
 

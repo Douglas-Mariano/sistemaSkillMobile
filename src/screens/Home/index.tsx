@@ -6,28 +6,31 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextInput,
-  Alert, // Importe o componente Alert
+  Alert,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   deletarSkillsUsuario,
   getUsuarioPorId,
   atualizarSkillsUsuario,
+  adicionarSkillsUsuario,
 } from "../../service/api/Api";
 import styles from "./styles";
-import { SkillsUsuario, Usuario } from "../../service/api/Types";
+import { Skills, SkillsUsuario, Usuario } from "../../service/api/Types";
 import GlobalStyle from "../../globalStyles/GlobalStyle";
-import Button from "../../components/Button";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import AdicionarSkillModal from "../../components/AdicionarSkillModal";
 
 const Home = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [modalDeletarVisivel, setModalDeletarVisivel] = useState(false);
   const [idSkillUsuario, setIdSkillUsuario] = useState<number | null>(null);
   const [inputAtualizarVisivel, setInputAtualizarVisivel] = useState(false);
-  const [novoLevel, setNovoLevel] = useState("");
+  const [levelAtualizado, setLevelAtualizado] = useState("");
+  const [modalAdicionarSkillVisivel, setModalAdicionarSkillVisivel] =
+    useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -74,7 +77,7 @@ const Home = () => {
       if (idSkillUsuario) {
         const skillsUsuarioAtualizada: SkillsUsuario = {
           id: idSkillUsuario,
-          level: parseInt(novoLevel),
+          level: parseInt(levelAtualizado),
         };
 
         await atualizarSkillsUsuario(idSkillUsuario, skillsUsuarioAtualizada);
@@ -82,39 +85,60 @@ const Home = () => {
         const updatedUser = await getUsuarioPorId(usuario?.id || 0);
         setUsuario(updatedUser.data);
 
-        // Exibe o alerta de sucesso
-        Alert.alert("Sucesso", "Level alterado com sucesso!");
+        Alert.alert("Level alterado com sucesso!");
       }
     } catch (error) {
       console.error("Erro ao atualizar a skill do usuário:", error);
     } finally {
       setInputAtualizarVisivel(false);
       setIdSkillUsuario(null);
-      setNovoLevel(""); // Limpa o valor do novo level
+      setLevelAtualizado("");
     }
   };
 
   const handleCancelUpdate = () => {
     setInputAtualizarVisivel(false);
     setIdSkillUsuario(null);
-    setNovoLevel(""); // Limpa o valor do novo level
+    setLevelAtualizado("");
+  };
+
+  const handleAdicionarSkill = async (novaSkill: Skills, level: number) => {
+    try {
+      if (usuario) {
+        const skillsUsuarioNova: SkillsUsuario = {
+          id: 0,
+          level: level,
+          skills: novaSkill,
+          usuario: usuario,
+        };
+
+        console.log(skillsUsuarioNova);
+        await adicionarSkillsUsuario(skillsUsuarioNova);
+
+        const updatedUser = await getUsuarioPorId(usuario.id || 0);
+        setUsuario(updatedUser.data);
+
+        Alert.alert("Nova skill adicionada com sucesso!");
+      }
+    } catch (error) {
+      console.error("Erro ao adicionar nova skill:", error);
+    } finally {
+      setModalAdicionarSkillVisivel(false);
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {usuario && (
-        <View style={styles.greetingContainer}>
-          <Text style={styles.greetingText}>Olá {usuario.nome}!</Text>
-          <Text style={styles.addSkillText}>
-            Gostaria de cadastrar uma nova skill?
-            <Button style={styles.button}>adicionar</Button>
-          </Text>
-        </View>
-      )}
       <View style={styles.titleContainer}>
         <Text style={[GlobalStyle.titulo, { color: GlobalStyle.color5.color }]}>
           Skills
         </Text>
+        <TouchableOpacity
+          style={styles.adicionarSkillButton}
+          onPress={() => setModalAdicionarSkillVisivel(true)}
+        >
+          <Icon name="plus-circle" size={30} color="blue" />
+        </TouchableOpacity>
       </View>
       {usuario && (
         <View style={styles.skillsContainer}>
@@ -153,8 +177,8 @@ const Home = () => {
                       <TextInput
                         style={styles.input}
                         placeholder={item.level.toString()}
-                        value={novoLevel}
-                        onChangeText={(text) => setNovoLevel(text)}
+                        value={levelAtualizado}
+                        onChangeText={(text) => setLevelAtualizado(text)}
                       />
                       <TouchableOpacity
                         onPress={handleConfirmUpdate}
@@ -202,8 +226,12 @@ const Home = () => {
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
       />
+      <AdicionarSkillModal
+        isVisible={modalAdicionarSkillVisivel}
+        onClose={() => setModalAdicionarSkillVisivel(false)}
+        onAdicionarSkill={handleAdicionarSkill}
+      />
     </SafeAreaView>
   );
 };
-
 export default Home;
