@@ -56,65 +56,73 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
   return (
     <Modal
       visible={isVisible}
-      transparent
+      transparent={true}
       animationType="slide"
       onRequestClose={onClose}
     >
       <View style={styles.modalContainer}>
-        <Text style={[GlobalStyle.titulo, styles.modalTitle]}>
-          Adicionar Nova Skill
-        </Text>
-        <Picker
-          selectedValue={nomeSkill}
-          onValueChange={(itemValue, itemIndex) => setNomeSkill(itemValue)}
-          style={styles.input}
-        >
-          {skills.map((skill, index) => (
-            <Picker.Item key={index} label={skill.nome} value={skill.nome} />
-          ))}
-        </Picker>
-        <TextInput
-          style={styles.input}
-          placeholder="Level"
-          value={level}
-          onChangeText={(text) => setLevel(text)}
-          keyboardType="numeric"
-        />
-        <View style={styles.botaoContainer}>
-          <TouchableOpacity
-            style={[
-              styles.botaoAdicionar,
-              { backgroundColor: GlobalStyle.lightGray.color },
-            ]}
-            onPress={handleAdicionar}
+        <View style={styles.modalContent}>
+          <Text style={[GlobalStyle.titulo, styles.modalTitle]}>
+            Adicionar Nova Skill
+          </Text>
+          <Picker
+            selectedValue={nomeSkill}
+            onValueChange={(itemValue, itemIndex) => setNomeSkill(itemValue)}
+            style={styles.input}
           >
-            <Icon name="check" size={25} color={GlobalStyle.mediumGray.color} />
-            <Text
+            {skills.map((skill, index) => (
+              <Picker.Item key={index} label={skill.nome} value={skill.nome} />
+            ))}
+          </Picker>
+          <TextInput
+            style={styles.input}
+            placeholder="Level"
+            value={level}
+            onChangeText={(text) => setLevel(text)}
+            keyboardType="numeric"
+          />
+          <View style={styles.botaoContainer}>
+            <TouchableOpacity
               style={[
-                styles.textoBotao,
-                { color: GlobalStyle.mediumGray.color },
+                styles.botaoAdicionar,
+                { backgroundColor: GlobalStyle.lightGray.color },
               ]}
+              onPress={handleAdicionar}
             >
-              Confirmar
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.botaoCancelar,
-              { backgroundColor: GlobalStyle.lightGray.color },
-            ]}
-            onPress={onClose}
-          >
-            <Icon name="times" size={25} color={GlobalStyle.mediumGray.color} />
-            <Text
+              <Icon
+                name="check"
+                size={25}
+                color={"green"}
+              />
+              <Text
+                style={
+                  styles.textoBotao
+                 }
+              >
+                Confirmar
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
               style={[
-                styles.textoBotao,
-                { color: GlobalStyle.mediumGray.color },
+                styles.botaoCancelar,
+                { backgroundColor: GlobalStyle.lightGray.color },
               ]}
+              onPress={onClose}
             >
-              Cancelar
-            </Text>
-          </TouchableOpacity>
+              <Icon
+                name="times"
+                size={25}
+                color={"red"}
+              />
+              <Text
+                style={
+                  styles.textoBotao
+                }
+              >
+                Cancelar
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </Modal>

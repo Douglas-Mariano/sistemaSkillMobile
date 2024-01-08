@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: GlobalStyle.lightGray.color,
+    backgroundColor: GlobalStyle.veryLightGray.color,
     padding: 20,
     borderRadius: 8,
     elevation: 5,
@@ -19,15 +19,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   confirmButton: {
-    backgroundColor: GlobalStyle.veryLightGray.color,
+    backgroundColor: GlobalStyle.darkGray.color,
     marginTop: 10,
   },
   cancelButton: {
-    backgroundColor: GlobalStyle.mediumGray.color,
+    backgroundColor: GlobalStyle.darkGray.color,
     marginTop: 10,
   },
   buttonText: {
-    color: GlobalStyle.darkGray.color,
+    color: GlobalStyle.veryLightGray.color,
     fontWeight: "bold",
   },
 });
