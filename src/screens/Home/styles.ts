@@ -61,6 +61,29 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
   },
+  updateContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  fixedText: {
+    fontSize: 16,
+    marginRight: 8,
+  },
+  input: {
+    flex: 1,
+    height: 25,
+    width: 40,
+    fontSize: 14,
+    borderWidth: 1,
+    borderColor: GlobalStyle.color1.color,
+    borderRadius: 5,
+    paddingLeft: 8,
+    marginRight: 8,
+  },
+  iconButton: {
+    marginLeft: 8,
+  },
 });
 
 export default styles;

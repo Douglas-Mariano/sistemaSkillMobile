@@ -1,19 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Text, View, SafeAreaView, TouchableOpacity } from "react-native";
+import {
+  FlatList,
+  Text,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  TextInput,
+  Alert, // Importe o componente Alert
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { deletarSkillsUsuario, getUsuarioPorId } from "../../service/api/Api";
+import {
+  deletarSkillsUsuario,
+  getUsuarioPorId,
+  atualizarSkillsUsuario,
+} from "../../service/api/Api";
 import styles from "./styles";
 import { SkillsUsuario, Usuario } from "../../service/api/Types";
 import GlobalStyle from "../../globalStyles/GlobalStyle";
 import Button from "../../components/Button";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { Image } from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const Home = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
-  const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
-  const [skillToDeleteId, setSkillToDeleteId] = useState<number | null>(null);
+  const [modalDeletarVisivel, setModalDeletarVisivel] = useState(false);
+  const [idSkillUsuario, setIdSkillUsuario] = useState<number | null>(null);
+  const [inputAtualizarVisivel, setInputAtualizarVisivel] = useState(false);
+  const [novoLevel, setNovoLevel] = useState("");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -25,32 +39,65 @@ const Home = () => {
     };
 
     fetchUser();
-  }, [isConfirmationVisible]);
+  }, [modalDeletarVisivel, inputAtualizarVisivel]);
 
   const handleDeleteSkill = (idSkillUsuario: number) => {
-    setSkillToDeleteId(idSkillUsuario);
-    setIsConfirmationVisible(true);
+    setIdSkillUsuario(idSkillUsuario);
+    setModalDeletarVisivel(true);
   };
 
   const handleConfirmDelete = async () => {
     try {
-      if (skillToDeleteId) {
-        await deletarSkillsUsuario(skillToDeleteId);
+      if (idSkillUsuario) {
+        await deletarSkillsUsuario(idSkillUsuario);
       }
     } catch (error) {
       console.error("Erro ao deletar a skill do usuário:", error);
     } finally {
-      setIsConfirmationVisible(false);
-      setSkillToDeleteId(null);
+      setModalDeletarVisivel(false);
+      setIdSkillUsuario(null);
     }
   };
 
   const handleCancelDelete = () => {
-    setIsConfirmationVisible(false);
-    setSkillToDeleteId(null);
+    setModalDeletarVisivel(false);
+    setIdSkillUsuario(null);
   };
 
   const handleUpdateSkill = (idSkillUsuario: number) => {
+    setInputAtualizarVisivel(true);
+    setIdSkillUsuario(idSkillUsuario);
+  };
+
+  const handleConfirmUpdate = async () => {
+    try {
+      if (idSkillUsuario) {
+        const skillsUsuarioAtualizada: SkillsUsuario = {
+          id: idSkillUsuario,
+          level: parseInt(novoLevel),
+        };
+
+        await atualizarSkillsUsuario(idSkillUsuario, skillsUsuarioAtualizada);
+
+        const updatedUser = await getUsuarioPorId(usuario?.id || 0);
+        setUsuario(updatedUser.data);
+
+        // Exibe o alerta de sucesso
+        Alert.alert("Sucesso", "Level alterado com sucesso!");
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar a skill do usuário:", error);
+    } finally {
+      setInputAtualizarVisivel(false);
+      setIdSkillUsuario(null);
+      setNovoLevel(""); // Limpa o valor do novo level
+    }
+  };
+
+  const handleCancelUpdate = () => {
+    setInputAtualizarVisivel(false);
+    setIdSkillUsuario(null);
+    setNovoLevel(""); // Limpa o valor do novo level
   };
 
   return (
@@ -60,9 +107,7 @@ const Home = () => {
           <Text style={styles.greetingText}>Olá {usuario.nome}!</Text>
           <Text style={styles.addSkillText}>
             Gostaria de cadastrar uma nova skill?
-            <Button style={styles.button}>
-              adicionar
-            </Button>
+            <Button style={styles.button}>adicionar</Button>
           </Text>
         </View>
       )}
@@ -74,7 +119,11 @@ const Home = () => {
       {usuario && (
         <View style={styles.skillsContainer}>
           <FlatList
-            data={usuario.skills || []}
+            data={
+              usuario.skills
+                ? [...usuario.skills].sort((a, b) => a.id - b.id)
+                : []
+            }
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <View style={styles.skillItemContainer}>
@@ -98,11 +147,49 @@ const Home = () => {
                   <Text style={GlobalStyle.texto}>
                     Descrição: {item.skills?.descricao || "..."}
                   </Text>
-                  <Text style={GlobalStyle.texto}>Level: {item.level}</Text>
+                  {inputAtualizarVisivel && idSkillUsuario === item.id ? (
+                    <View style={styles.updateContainer}>
+                      <Text style={styles.fixedText}>Level:</Text>
+                      <TextInput
+                        style={styles.input}
+                        placeholder={item.level.toString()}
+                        value={novoLevel}
+                        onChangeText={(text) => setNovoLevel(text)}
+                      />
+                      <TouchableOpacity
+                        onPress={handleConfirmUpdate}
+                        style={styles.iconButton}
+                      >
+                        <Icon name="check" size={20} color="green" />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={handleCancelUpdate}
+                        style={styles.iconButton}
+                      >
+                        <Icon name="times" size={20} color="red" />
+                      </TouchableOpacity>
+                    </View>
+                  ) : (
+                    <View style={styles.updateContainer}>
+                      <Text style={GlobalStyle.texto}>Level:</Text>
+                      <Text style={GlobalStyle.texto}>{item.level}</Text>
+                      <TouchableOpacity
+                        onPress={() => handleUpdateSkill(item.id)}
+                        style={styles.iconButton}
+                      >
+                        <Icon name="pencil" size={15} color="blue" />
+                      </TouchableOpacity>
+                    </View>
+                  )}
                 </View>
                 <View style={styles.iconContainer}>
                   <TouchableOpacity onPress={() => handleDeleteSkill(item.id)}>
-                    <Icon name="trash" size={25} color="red" style={styles.icon} />
+                    <Icon
+                      name="trash"
+                      size={25}
+                      color="red"
+                      style={styles.icon}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -111,7 +198,7 @@ const Home = () => {
         </View>
       )}
       <ConfirmationModal
-        isVisible={isConfirmationVisible}
+        isVisible={modalDeletarVisivel}
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
       />

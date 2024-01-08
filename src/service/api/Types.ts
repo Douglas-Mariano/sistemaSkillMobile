@@ -16,8 +16,8 @@ export interface Skills {
 export interface SkillsUsuario {
   id: number;
   level: number;
-  usuario: Usuario;
-  skills: Skills;
+  usuario?: Usuario;
+  skills?: Skills;
 }
 
 export interface ApiResponse<T = any> {
