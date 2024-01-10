@@ -70,6 +70,7 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
             onValueChange={(itemValue, itemIndex) => setNomeSkill(itemValue)}
             style={styles.input}
           >
+            <Picker.Item label="" value="" />
             {skills.map((skill, index) => (
               <Picker.Item key={index} label={skill.nome} value={skill.nome} />
             ))}
