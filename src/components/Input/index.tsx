@@ -11,7 +11,7 @@ import {
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import styles from "./styles";
-import GlobalStyle from "../../globalStyles/GlobalStyle";
+import GlobalStyle from "../../styles/GlobalStyle";
 
 interface InputProps extends TextInputProps {
   customStyle?: StyleProp<ViewStyle>;

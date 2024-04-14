@@ -1,11 +1,13 @@
+// styles.ts
 import { StyleSheet } from "react-native";
-import GlobalStyle from "../../globalStyles/GlobalStyle";
+import { theme } from "../../styles/theme";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    marginTop: 50
+    alignItems: "center",
+    marginTop: 150,
   },
   content: {
     alignItems: "center",
@@ -13,23 +15,24 @@ const styles = StyleSheet.create({
   },
   titulo: {
     marginTop: 10,
-    fontSize: 36,
-    lineHeight: 36,
+    fontSize: theme.FONT_SIZE.XL,
+    lineHeight: theme.FONT_SIZE.XL,
     fontWeight: "bold",
-    color: GlobalStyle.darkGray.color,
+    color: theme.COLORS.GRAY_700,
   },
   input: {
     marginTop: 7,
     marginBottom: 8,
     paddingHorizontal: 10,
-    backgroundColor: GlobalStyle.veryLightGray.color,
-    borderColor: GlobalStyle.mediumGray.color,
+    backgroundColor: theme.COLORS.GRAY_100,
+    borderColor: theme.COLORS.GRAY_500,
   },
   button: {
-    backgroundColor: GlobalStyle.lightGray.color,
+    backgroundColor: theme.COLORS.GREEN_700,
   },
-  textoBotao: {
+  textButton: {
     fontWeight: "bold",
+    color: theme.COLORS.WHITE,
   },
 });
 

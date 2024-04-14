@@ -1,19 +1,18 @@
 import { createContext, useState, ReactNode } from "react";
 import {
   Usuario,
-  Skills,
+  Skill,
   ApiResponse,
   ApiError,
-  SkillsUsuario,
 } from "../service/api/Types";
 
 interface SkillsContextProps {
   usuario: Usuario | null;
-  skills: Skills[];
+  skills: Skill[];
   apiResponse: ApiResponse;
   apiError: ApiError;
   setUsuario: React.Dispatch<React.SetStateAction<Usuario | null>>;
-  setSkills: React.Dispatch<React.SetStateAction<Skills[]>>;
+  setSkills: React.Dispatch<React.SetStateAction<Skill[]>>;
   setApiResponse: React.Dispatch<React.SetStateAction<ApiResponse>>;
   setApiError: React.Dispatch<React.SetStateAction<ApiError>>;
 }
@@ -35,7 +34,7 @@ export const SkillsContext = createContext<SkillsContextProps>({
 
 export const SkillsProvider = ({ children }: SkillsProviderProps) => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
-  const [skills, setSkills] = useState<Skills[]>([]);
+  const [skills, setSkills] = useState<Skill[]>([]);
   const [apiResponse, setApiResponse] = useState<ApiResponse>({
     data: null,
     status: 0,

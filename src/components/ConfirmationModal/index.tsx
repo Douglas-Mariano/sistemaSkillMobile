@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Modal } from "react-native";
 import styles from "./styles";
 import Button from "../Button";
-import GlobalStyle from "../../globalStyles/GlobalStyle";
+import GlobalStyle from "../../styles/GlobalStyle";
 
 interface ConfirmationModalProps {
   isVisible: boolean;

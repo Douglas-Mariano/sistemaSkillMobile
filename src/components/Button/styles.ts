@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import GlobalStyle from "../../globalStyles/GlobalStyle";
+import { theme } from "../../styles/theme";
 
 const styles = StyleSheet.create({
   button: {
@@ -10,7 +10,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     margin: 5,
-    backgroundColor: GlobalStyle.lightGray.color,
+  },
+  text: {
+    fontSize: theme.FONT_SIZE.MD,
   },
 });
 

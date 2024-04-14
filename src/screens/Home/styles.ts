@@ -1,6 +1,6 @@
 // styles.ts
 import { StyleSheet } from "react-native";
-import GlobalStyle from "../../globalStyles/GlobalStyle";
+import GlobalStyle from "../../styles/GlobalStyle";
 
 const styles = StyleSheet.create({
   container: {
@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
     backgroundColor: GlobalStyle.darkGray.color,
     margin: 2,
     borderRadius: 8,
-    
   },
   greetingContainer: {
     marginBottom: 16,
@@ -36,7 +35,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 16,
-    marginHorizontal:20,
+    marginHorizontal: 20,
     padding: 16,
     backgroundColor: "#F5F5F5",
     borderRadius: 8,
@@ -93,6 +92,49 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     top: 10,
+  },
+  filterContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  filterInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginRight: 10,
+  },
+  sortButton: {
+    backgroundColor: "blue",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  sortButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  paginationContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+  },
+  sizeContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    padding: 10,
+  },
+  sizeSelected: {
+    fontSize: 16,
+    color: "blue",
+  },
+  size: {
+    fontSize: 16,
+    color: "black",
   },
 });
 

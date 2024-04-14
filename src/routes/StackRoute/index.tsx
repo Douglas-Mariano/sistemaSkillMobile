@@ -1,41 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Header from "../../components/Header";
 import Login from "../../screens/Login";
 import Cadastro from "../../screens/Cadastro";
 import Home from "../../screens/Home";
-import Header from "../../components/Header";
 
 const Stack = createStackNavigator();
 
 const StackRoute: React.FC = () => {
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const getUserName = async () => {
+      try {
+        const name = await AsyncStorage.getItem("userName");
+        if (name !== null) {
+          setUserName(name);
+        }
+      } catch (error) {
+        console.error("Erro ao obter o nome do usuário:", error);
+      }
+    };
+
+    getUserName();
+  }, []);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{
-          header: () => <Header />,
-        }}
-      >
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Login"
           component={Login}
-          options={({ navigation }) => ({
-            header: () => <Header navigation={navigation} />,
-          })}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Cadastro"
           component={Cadastro}
-          options={({ navigation }) => ({
-            header: () => <Header navigation={navigation} />,
-          })}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Home"
           component={Home}
           options={({ navigation }) => ({
-            header: () => <Header navigation={navigation} />,
+            header: () => (
+              <Header title={userName || "Home"} navigation={navigation} />
+            ),
           })}
         />
       </Stack.Navigator>

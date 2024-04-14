@@ -42,7 +42,7 @@ export const logarUsuario = async (
   login: string,
   senha: string
 ): Promise<string> => {
-  console.log(login, senha)
+  console.log(login, senha);
   try {
     const response = await api.post("/auth/login", { login, senha });
     const token = response.data.token;
@@ -59,7 +59,6 @@ export const logarUsuario = async (
 export const deslogar = async (): Promise<void> => {
   try {
     await AsyncStorage.removeItem("token");
-    await AsyncStorage.removeItem("userId");
   } catch (error) {
     console.error("Erro ao deslogar:", error);
     throw error;
@@ -81,15 +80,18 @@ export const obterTodasSkills = async (): Promise<Skill[]> => {
   }
 };
 
-export const getSkillUsuario = async (
+export const getSkillsUsuario = async (
   filter = "",
   page = 0,
-  size = 20
+  order = "",
+  size = 5,
 ): Promise<ApiResponse> => {
   try {
-    const response = await api.get(
-      `/skillsUsuario?nome=${filter}&page=${page}&size=${size}`
-    );
+    const sortParam = order === "asc" ? "asc" : "desc";
+    const url = `/skillsUsuario?nome=${filter}&page=${page}&size=${size}&sort=level,${sortParam}`;
+    console.log("URL da requisição: ", url);
+
+    const response = await api.get(url);
     return response;
   } catch (error) {
     const apiError = error as AxiosError<ApiError>;

@@ -1,10 +1,11 @@
 import { StyleSheet } from "react-native";
-import GlobalStyle from "../../globalStyles/GlobalStyle";
+import { theme } from "../../styles/theme";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-around",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 50,
   },
   content: {
@@ -13,24 +14,28 @@ const styles = StyleSheet.create({
   },
   titulo: {
     marginTop: 10,
-    fontSize: 36,
-    lineHeight: 36,
+    fontSize: theme.FONT_SIZE.XL,
+    lineHeight: theme.FONT_SIZE.XL,
     fontWeight: "bold",
-    color: GlobalStyle.darkGray.color,
+    color: theme.COLORS.GRAY_700,
   },
   input: {
     marginTop: 7,
-    backgroundColor: GlobalStyle.veryLightGray.color,
-    borderColor: GlobalStyle.mediumGray.color,
     marginBottom: 10,
     paddingHorizontal: 10,
+    backgroundColor: theme.COLORS.WHITE,
+    borderColor: theme.COLORS.GRAY_500,
   },
   inputError: {
-    borderColor: "red",
+    borderColor: theme.COLORS.RED,
     borderWidth: 1,
   },
-  textoBotao: {
+  button: {
+    backgroundColor: theme.COLORS.GREEN_700,
+  },
+  textButton: {
     fontWeight: "bold",
+    color: theme.COLORS.WHITE,
   },
 });
 

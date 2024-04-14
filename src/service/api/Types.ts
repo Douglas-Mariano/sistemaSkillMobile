@@ -18,12 +18,13 @@ export interface SkillsUsuario {
   level: number;
   usuario?: Usuario;
   skill?: Skill;
+}
 
-  totalElements?: number;
-  totalPages?: number;
+export interface Pagination {
+  filter?: string;
   page?: number;
+  order?: "asc" | "desc"; 
   size?: number;
-  nome?: string;
 }
 
 export interface ApiResponse<T = any> {

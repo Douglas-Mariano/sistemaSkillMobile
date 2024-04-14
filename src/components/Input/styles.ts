@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import GlobalStyle from "../../globalStyles/GlobalStyle";
+import { theme } from "../../styles/theme";
 
 const styles = StyleSheet.create({
   input: {
@@ -9,6 +9,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 25,
     padding: 5,
+    fontSize: theme.FONT_SIZE.MD,
+    color: theme.COLORS.GRAY_700,
   },
   inputContainer: {
     flexDirection: "row",
@@ -18,11 +20,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   inputContainerCustom: {
-    borderColor: GlobalStyle.mediumGray.color,
+    borderColor: theme.COLORS.GRAY_500,
   },
   icon: {
     marginRight: 10,
-    color: GlobalStyle.darkGray.color,
+    color: theme.COLORS.GRAY_700,
   },
   monstrarSenha: {
     position: "absolute",

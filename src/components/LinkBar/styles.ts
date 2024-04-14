@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import GlobalStyle from "../../globalStyles/GlobalStyle";
+import { theme } from "../../styles/theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -9,12 +9,13 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   questionText: {
-    color: GlobalStyle.darkGray.color,
+    fontSize: theme.FONT_SIZE.SM,
+    color: theme.COLORS.GRAY_700,
     marginRight: 5,
   },
   link: {
     textDecorationLine: "underline",
-    color: GlobalStyle.mediumGray.color,
+    color: theme.COLORS.GREEN_500,
     fontWeight: "bold",
   },
 });

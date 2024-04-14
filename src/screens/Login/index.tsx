@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CheckBox } from "react-native-elements";
-import GlobalStyle from "../../globalStyles/GlobalStyle";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Input from "../../components/Input";
 import LinkBar from "../../components/LinkBar";
@@ -23,6 +22,18 @@ const Login = ({ navigation }: any) => {
   const [salvo, setSalvo] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(true);
 
+  useEffect(() => {
+    const fetchLoginData = async () => {
+      const storedLogin = await AsyncStorage.getItem("login");
+      const storedSenha = await AsyncStorage.getItem("senha");
+
+      if (storedLogin !== null) setLogin(storedLogin);
+      if (storedSenha !== null) setSenha(storedSenha);
+    };
+
+    fetchLoginData();
+  }, []);
+
   const handleLogin = async () => {
     try {
       const token = await logarUsuario(login, senha);
@@ -36,7 +47,6 @@ const Login = ({ navigation }: any) => {
       }
       navigation.navigate("Home");
       return token;
-
     } catch (error) {
       console.error("Erro ao fazer login:", error);
     }
@@ -46,9 +56,7 @@ const Login = ({ navigation }: any) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.content}>
-          <Text style={styles.titulo}>
-            Login
-          </Text>
+          <Text style={styles.titulo}>Login</Text>
         </View>
         <View style={styles.content}>
           <Input
@@ -84,11 +92,8 @@ const Login = ({ navigation }: any) => {
         </View>
       </ScrollView>
       <View style={styles.content}>
-        <Button
-          buttonStyle={[styles.button, { backgroundColor: GlobalStyle.lightGray.color }]}
-          onPress={handleLogin}
-        >
-          <Text style={styles.textoBotao}>Login</Text>
+        <Button buttonStyle={styles.button} onPress={handleLogin}>
+          <Text style={styles.textButton}>Login</Text>
         </Button>
         <LinkBar
           questionText="Não tem Cadastro? "

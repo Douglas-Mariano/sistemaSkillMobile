@@ -4,7 +4,7 @@ import { Picker } from "@react-native-picker/picker";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { obterTodasSkills } from "../../service/api/Api";
 import styles from "./styles";
-import GlobalStyle from "../../globalStyles/GlobalStyle";
+import GlobalStyle from "../../styles/GlobalStyle";
 import { Skill } from "../../service/api/Types";
 
 interface AdicionarSkillModalProps {
@@ -26,7 +26,7 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
     const carregarSkills = async () => {
       try {
         const response = await obterTodasSkills();
-        console.log(response)
+        // console.log(response)
         setSkills(response);
       } catch (error) {
         console.error("Erro ao carregar skills:", error);

@@ -8,7 +8,6 @@ import {
   faEyeSlash,
   faEye,
 } from "@fortawesome/free-solid-svg-icons";
-import GlobalStyle from "../../globalStyles/GlobalStyle";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import LinkBar from "../../components/LinkBar";
@@ -113,11 +112,8 @@ const Cadastro = ({ navigation }: any) => {
           />
         </View>
         <View style={styles.content}>
-          <Button
-            buttonStyle={{ backgroundColor: GlobalStyle.lightGray.color }}
-            onPress={handleCadastro}
-          >
-            <Text style={styles.textoBotao}>Finalizar</Text>
+          <Button buttonStyle={styles.button} onPress={handleCadastro}>
+            <Text style={styles.textButton}>Finalizar</Text>
           </Button>
         </View>
       </ScrollView>

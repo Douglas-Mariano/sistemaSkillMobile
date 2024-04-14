@@ -1,23 +1,23 @@
-import { StyleSheet } from 'react-native';
-import GlobalStyle from "../../globalStyles/GlobalStyle";
+import { StyleSheet } from "react-native";
+import { theme } from "../../styles/theme";
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
     padding: 10,
-    backgroundColor: GlobalStyle.darkGray.color,
+    gap: 10,
+    backgroundColor: theme.COLORS.GRAY_700,
   },
   title: {
-    fontSize: 18,
-    color: GlobalStyle.lightGray.color,
-    fontWeight: 'bold',
+    fontSize: theme.FONT_SIZE.LG,
+    color: theme.COLORS.GRAY_100,
+    fontWeight: "bold",
   },
   logoutButton: {
-    fontSize: 16,
-    color: GlobalStyle.lightGray.color,
-    fontWeight: 'bold',
+    color: theme.COLORS.GRAY_100,
+    fontWeight: "bold",
   },
 });
 

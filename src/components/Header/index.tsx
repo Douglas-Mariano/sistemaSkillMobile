@@ -1,15 +1,15 @@
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
 import { deslogar } from "../../service/api/Api";
+import { View, TouchableOpacity, Text } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 import styles from "./styles";
-import GlobalStyle from "../../globalStyles/GlobalStyle";
 
 interface HeaderProps {
   navigation?: any;
+  title: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ navigation }) => {
+const Header: React.FC<HeaderProps> = ({ navigation, title }) => {
   const handleLogout = async () => {
     try {
       await deslogar();
@@ -23,10 +23,10 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flex: 1 }}></View>
       <TouchableOpacity onPress={handleLogout}>
-        <Icon name="sign-out" size={40} color={GlobalStyle.veryLightGray.color} style={styles.logoutButton} />
+        <Icon name="sign-out" size={20} style={styles.logoutButton} />
       </TouchableOpacity>
+      <Text style={styles.title}>{title}</Text>
     </View>
   );
 };
