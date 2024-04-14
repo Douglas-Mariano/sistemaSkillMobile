@@ -34,8 +34,9 @@ const Login = ({ navigation }: any) => {
         await AsyncStorage.removeItem("login");
         await AsyncStorage.removeItem("senha");
       }
-
       navigation.navigate("Home");
+      return token;
+
     } catch (error) {
       console.error("Erro ao fazer login:", error);
     }

@@ -7,24 +7,24 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  Image,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   deletarSkillsUsuario,
-  getUsuarioPorId,
   atualizarSkillsUsuario,
   adicionarSkillsUsuario,
+  getSkillUsuario,
 } from "../../service/api/Api";
 import styles from "./styles";
-import { Skills, SkillsUsuario, Usuario } from "../../service/api/Types";
+import { Skill, SkillsUsuario } from "../../service/api/Types";
 import GlobalStyle from "../../globalStyles/GlobalStyle";
 import ConfirmationModal from "../../components/ConfirmationModal";
-import { Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AdicionarSkillModal from "../../components/AdicionarSkillModal";
 
 const Home = () => {
-  const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [skills, setSkills] = useState<SkillsUsuario[]>([]);
+
   const [modalDeletarVisivel, setModalDeletarVisivel] = useState(false);
   const [idSkillUsuario, setIdSkillUsuario] = useState<number | null>(null);
   const [inputAtualizarVisivel, setInputAtualizarVisivel] = useState(false);
@@ -33,15 +33,17 @@ const Home = () => {
     useState(false);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const userId = await AsyncStorage.getItem("userId");
-      if (userId) {
-        const response = await getUsuarioPorId(Number(userId));
-        setUsuario(response.data);
+    const fetchUserSkills = async () => {
+      try {
+        const response = await getSkillUsuario("", 0, 10);
+        console.log(response.data.content);
+        setSkills(response.data.content);
+      } catch (error) {
+        console.error(error);
       }
     };
 
-    fetchUser();
+    fetchUserSkills();
   }, [modalDeletarVisivel, inputAtualizarVisivel]);
 
   const handleDeleteSkill = (idSkillUsuario: number) => {
@@ -76,14 +78,10 @@ const Home = () => {
     try {
       if (idSkillUsuario) {
         const skillsUsuarioAtualizada: SkillsUsuario = {
-          id: idSkillUsuario,
           level: parseInt(levelAtualizado),
         };
 
         await atualizarSkillsUsuario(idSkillUsuario, skillsUsuarioAtualizada);
-
-        const updatedUser = await getUsuarioPorId(usuario?.id || 0);
-        setUsuario(updatedUser.data);
 
         Alert.alert("Level alterado com sucesso!");
       }
@@ -102,24 +100,17 @@ const Home = () => {
     setLevelAtualizado("");
   };
 
-  const handleAdicionarSkill = async (novaSkill: Skills, level: number) => {
+  const handleAdicionarSkill = async (novaSkill: Skill, level: number) => {
     try {
-      if (usuario) {
         const skillsUsuarioNova: SkillsUsuario = {
-          id: 0,
           level: level,
-          skills: novaSkill,
-          usuario: usuario,
+          skill: novaSkill,
         };
 
         console.log(skillsUsuarioNova);
         await adicionarSkillsUsuario(skillsUsuarioNova);
 
-        const updatedUser = await getUsuarioPorId(usuario.id || 0);
-        setUsuario(updatedUser.data);
-
         Alert.alert("Nova skill adicionada com sucesso!");
-      }
     } catch (error) {
       console.error("Erro ao adicionar nova skill:", error);
     } finally {
@@ -145,21 +136,16 @@ const Home = () => {
           <Icon name="plus-circle" size={30} color="blue" />
         </TouchableOpacity>
       </View>
-      {usuario && (
         <View style={styles.skillsContainer}>
           <FlatList
-            data={
-              usuario.skills
-                ? [...usuario.skills].sort((a, b) => a.id - b.id)
-                : []
-            }
-            keyExtractor={(item) => item.id.toString()}
+            data={skills}
+            keyExtractor={(item) => (item.id ? item.id.toString() : "default")}
             renderItem={({ item }) => (
               <View style={styles.skillItemContainer}>
                 <View>
-                  {item.skills?.imagem ? (
+                  {item.skill?.imagem ? (
                     <Image
-                      source={{ uri: item.skills.imagem }}
+                      source={{ uri: item.skill.imagem }}
                       style={{ width: 50, height: 50, marginRight: 10 }}
                     />
                   ) : (
@@ -171,10 +157,10 @@ const Home = () => {
                 </View>
                 <View>
                   <Text style={GlobalStyle.texto}>
-                    Skill: {item.skills?.nome}
+                    Skill: {item.skill?.nome}
                   </Text>
                   <Text style={GlobalStyle.texto}>
-                    Descrição: {item.skills?.descricao || "..."}
+                    Descrição: {item.skill?.descricao || "..."}
                   </Text>
                   {inputAtualizarVisivel && idSkillUsuario === item.id ? (
                     <View style={styles.updateContainer}>
@@ -203,7 +189,7 @@ const Home = () => {
                       <Text style={GlobalStyle.texto}>Level:</Text>
                       <Text style={GlobalStyle.texto}>{item.level}</Text>
                       <TouchableOpacity
-                        onPress={() => handleUpdateSkill(item.id)}
+                        onPress={() => item.id && handleUpdateSkill(item.id)}
                         style={styles.iconButton}
                       >
                         <Icon name="pencil" size={15} color="blue" />
@@ -212,7 +198,9 @@ const Home = () => {
                   )}
                 </View>
                 <View style={styles.iconContainer}>
-                  <TouchableOpacity onPress={() => handleDeleteSkill(item.id)}>
+                  <TouchableOpacity
+                    onPress={() => item.id && handleDeleteSkill(item.id)}
+                  >
                     <Icon
                       name="trash"
                       size={25}
@@ -225,7 +213,6 @@ const Home = () => {
             )}
           />
         </View>
-      )}
       <ConfirmationModal
         isVisible={modalDeletarVisivel}
         onConfirm={handleConfirmDelete}

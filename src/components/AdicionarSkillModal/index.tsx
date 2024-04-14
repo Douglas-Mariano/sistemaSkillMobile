@@ -5,12 +5,12 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { obterTodasSkills } from "../../service/api/Api";
 import styles from "./styles";
 import GlobalStyle from "../../globalStyles/GlobalStyle";
-import { Skills } from "../../service/api/Types";
+import { Skill } from "../../service/api/Types";
 
 interface AdicionarSkillModalProps {
   isVisible: boolean;
   onClose: () => void;
-  onAdicionarSkill: (novaSkill: Skills, level: number) => void;
+  onAdicionarSkill: (novaSkill: Skill, level: number) => void;
 }
 
 const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
@@ -20,12 +20,13 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
 }) => {
   const [nomeSkill, setNomeSkill] = useState("");
   const [level, setLevel] = useState("");
-  const [skills, setSkills] = useState<Skills[]>([]);
+  const [skills, setSkills] = useState<Skill[]>([]);
 
   useEffect(() => {
     const carregarSkills = async () => {
       try {
         const response = await obterTodasSkills();
+        console.log(response)
         setSkills(response);
       } catch (error) {
         console.error("Erro ao carregar skills:", error);

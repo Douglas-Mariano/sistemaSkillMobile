@@ -6,7 +6,7 @@ export interface Usuario {
   skills?: SkillsUsuario[];
 }
 
-export interface Skills {
+export interface Skill {
   id: number;
   nome: string;
   descricao?: string;
@@ -14,10 +14,16 @@ export interface Skills {
 }
 
 export interface SkillsUsuario {
-  id: number;
+  id?: number;
   level: number;
   usuario?: Usuario;
-  skills?: Skills;
+  skill?: Skill;
+
+  totalElements?: number;
+  totalPages?: number;
+  page?: number;
+  size?: number;
+  nome?: string;
 }
 
 export interface ApiResponse<T = any> {
