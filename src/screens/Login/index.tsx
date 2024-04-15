@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView } from "react-native";
+import React, { useEffect, useContext } from "react";
+import { View, Text, ScrollView, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CheckBox } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,12 +15,19 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import styles from "./styles";
 import { logarUsuario } from "../../service/api/Api";
+import { SkillsContext } from "../../contexts/SkillsContext";
 
 const Login = ({ navigation }: any) => {
-  const [login, setLogin] = useState("");
-  const [senha, setSenha] = useState("");
-  const [salvo, setSalvo] = useState(false);
-  const [mostrarSenha, setMostrarSenha] = useState(true);
+  const {
+    login,
+    senha,
+    salvo,
+    mostrarSenha,
+    setLogin,
+    setSenha,
+    setSalvo,
+    setMostrarSenha,
+  } = useContext(SkillsContext);
 
   useEffect(() => {
     const fetchLoginData = async () => {
@@ -49,6 +56,10 @@ const Login = ({ navigation }: any) => {
       return token;
     } catch (error) {
       console.error("Erro ao fazer login:", error);
+      Alert.alert(
+        "Erro",
+        "Ocorreu um erro ao tentar fazer login. Usuário ou Senha incorretos!"
+      );
     }
   };
 

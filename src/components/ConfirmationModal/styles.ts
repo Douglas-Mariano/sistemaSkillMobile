@@ -1,34 +1,36 @@
 import { StyleSheet } from "react-native";
-import GlobalStyle from "../../styles/GlobalStyle";
+import { theme } from "../../styles/theme";
 
 const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: GlobalStyle.veryLightGray.color,
+    backgroundColor: theme.COLORS.GRAY_200,
+    alignItems: "center",
     padding: 20,
     borderRadius: 8,
     elevation: 5,
   },
   modalText: {
-    fontSize: 16,
+    fontSize: theme.FONT_SIZE.MD,
     marginBottom: 10,
+    color: theme.COLORS.GRAY_700,
   },
   confirmButton: {
-    backgroundColor: GlobalStyle.darkGray.color,
+    backgroundColor: theme.COLORS.GREEN_700,
     marginTop: 10,
   },
   cancelButton: {
-    backgroundColor: GlobalStyle.darkGray.color,
+    backgroundColor: theme.COLORS.RED_DARK,
     marginTop: 10,
   },
   buttonText: {
-    color: GlobalStyle.veryLightGray.color,
+    color: theme.COLORS.WHITE,
     fontWeight: "bold",
   },
 });
+
 export default styles;

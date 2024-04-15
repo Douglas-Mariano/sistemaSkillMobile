@@ -19,8 +19,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
     borderWidth: 1,
-  },
-  inputContainerCustom: {
     borderColor: theme.COLORS.GRAY_500,
   },
   icon: {

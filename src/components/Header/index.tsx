@@ -1,12 +1,11 @@
 import React from "react";
 import { deslogar } from "../../service/api/Api";
-import { View, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import styles from "./styles";
 
 interface HeaderProps {
   navigation?: any;
-  // title: string;
   onAddSkill?: () => void;
 }
 
@@ -25,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ navigation, onAddSkill }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handleLogout}>
-        <Icon name="sign-out" size={20} style={styles.button} />
+        <Icon name="sign-out" size={20} style={styles.signOut} />
       </TouchableOpacity>
       {onAddSkill && (
         <TouchableOpacity onPress={onAddSkill}>

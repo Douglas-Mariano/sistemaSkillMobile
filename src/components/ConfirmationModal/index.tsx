@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, Modal } from "react-native";
 import styles from "./styles";
 import Button from "../Button";
-import GlobalStyle from "../../styles/GlobalStyle";
 
 interface ConfirmationModalProps {
   isVisible: boolean;
@@ -24,7 +23,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={[styles.modalText, GlobalStyle.texto]}>
+          <Text style={[styles.modalText]}>
             Tem certeza que deseja excluir esta skill?
           </Text>
           <Button buttonStyle={styles.confirmButton} onPress={onConfirm}>

@@ -1,32 +1,36 @@
 import { StyleSheet } from "react-native";
-import GlobalStyle from "../../styles/GlobalStyle";
+import { theme } from "../../styles/theme";
 
 const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: GlobalStyle.veryLightGray.color,
+    backgroundColor: theme.COLORS.GRAY_400,
     padding: 20,
     borderRadius: 8,
     elevation: 5,
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: theme.FONT_SIZE.XL,
     marginBottom: 10,
-    color: GlobalStyle.darkGray.color,
     textAlign: "center",
+    color: theme.COLORS.GRAY_100,
   },
   input: {
     marginBottom: 10,
+    marginTop: 20,
     padding: 10,
     borderWidth: 1,
-    borderColor: GlobalStyle.mediumGray.color,
     borderRadius: 5,
-    backgroundColor: GlobalStyle.lightGray.color,
+    borderColor: theme.COLORS.GRAY_400,
+    backgroundColor: theme.COLORS.GRAY_100,
+    color: theme.COLORS.GRAY_700,
+  },
+  dropDownPicker: {
+    backgroundColor: theme.COLORS.GRAY_100,
   },
   botaoContainer: {
     flexDirection: "row",
@@ -41,7 +45,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 5,
-    backgroundColor: GlobalStyle.darkGray.color,
+    backgroundColor: theme.COLORS.GREEN_700,
   },
   botaoCancelar: {
     flexDirection: "row",
@@ -50,12 +54,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 5,
-    backgroundColor: GlobalStyle.darkGray.color,
+    backgroundColor: theme.COLORS.RED_DARK,
   },
   textoBotao: {
     marginLeft: 10,
     fontWeight: "bold",
-    color: GlobalStyle.darkGray.color,
+    color: theme.COLORS.WHITE,
   },
 });
 

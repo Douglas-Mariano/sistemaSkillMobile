@@ -4,20 +4,22 @@ import { theme } from "../../styles/theme";
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignItems: "center",
-    padding: 10,
-    gap: 10,
+    width: "100%",
+    height: 40,
     backgroundColor: theme.COLORS.GRAY_700,
   },
-  title: {
+  signOut: {
     fontSize: theme.FONT_SIZE.LG,
     color: theme.COLORS.GRAY_100,
     fontWeight: "bold",
+    marginLeft: 20,
   },
   button: {
     color: theme.COLORS.GRAY_100,
     fontWeight: "bold",
+    marginRight: 20,
   },
 });
 

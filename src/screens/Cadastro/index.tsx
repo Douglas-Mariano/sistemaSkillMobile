@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { View, Text, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -15,13 +15,21 @@ import styles from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Usuario } from "../../service/api/Types";
 import { adicionarUsuario } from "../../service/api/Api";
+import { SkillsContext } from "../../contexts/SkillsContext";
 
 const Cadastro = ({ navigation }: any) => {
-  const [nome, setNome] = useState("");
-  const [login, setLogin] = useState("");
-  const [senha, setSenha] = useState("");
-  const [confirmarSenha, setConfirmarSenha] = useState("");
-  const [mostrarSenha, setMostrarSenha] = useState(true);
+  const {
+    nome,
+    setNome,
+    login,
+    setLogin,
+    senha,
+    setSenha,
+    confirmarSenha,
+    setConfirmarSenha,
+    mostrarSenha,
+    setMostrarSenha,
+  } = useContext(SkillsContext);
 
   const handleCadastro = async () => {
     if (

@@ -4,8 +4,8 @@ import DropDownPicker from "react-native-dropdown-picker";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { obterTodasSkills } from "../../service/api/Api";
 import styles from "./styles";
-import GlobalStyle from "../../styles/GlobalStyle";
 import { Skill } from "../../service/api/Types";
+import { theme } from "../../styles/theme";
 
 interface AdicionarSkillModalProps {
   isVisible: boolean;
@@ -65,9 +65,7 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={[GlobalStyle.titulo, styles.modalTitle]}>
-            Adicionar Nova Skill
-          </Text>
+          <Text style={styles.modalTitle}>Adicionar Nova Skill</Text>
           <DropDownPicker
             items={skills.map((skill) => ({
               label: skill.nome,
@@ -79,7 +77,8 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
             setValue={setSelectedValue}
             setItems={(items) => setSkills(items)}
             containerStyle={{ height: 40 }}
-            style={{ backgroundColor: "#fafafa" }}
+            style={{ backgroundColor: theme.COLORS.GRAY_100 }}
+            placeholder="Selecione uma skill"
           />
           <TextInput
             style={styles.input}
@@ -90,23 +89,14 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
           />
           <View style={styles.botaoContainer}>
             <TouchableOpacity
-              style={[
-                styles.botaoAdicionar,
-                { backgroundColor: GlobalStyle.lightGray.color },
-              ]}
+              style={styles.botaoAdicionar}
               onPress={handleAdicionar}
             >
-              <Icon name="check" size={25} color={"green"} />
+              <Icon name="check" size={25} color={theme.COLORS.WHITE} />
               <Text style={styles.textoBotao}>Confirmar</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.botaoCancelar,
-                { backgroundColor: GlobalStyle.lightGray.color },
-              ]}
-              onPress={onClose}
-            >
-              <Icon name="times" size={25} color={"red"} />
+            <TouchableOpacity style={styles.botaoCancelar} onPress={onClose}>
+              <Icon name="times" size={25} color={theme.COLORS.WHITE} />
               <Text style={styles.textoBotao}>Cancelar</Text>
             </TouchableOpacity>
           </View>

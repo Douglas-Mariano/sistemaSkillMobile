@@ -1,30 +1,22 @@
 import { StyleSheet } from "react-native";
-import GlobalStyle from "../../styles/GlobalStyle";
+import { theme } from "../../styles/theme";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 2,
     borderRadius: 8,
+    backgroundColor: theme.COLORS.GRAY_200,
   },
-  greetingContainer: {
-    marginBottom: 16,
+  headerContainer: {
+    marginTop: 30,
   },
   greetingText: {
-    fontSize: 16,
+    fontSize: theme.FONT_SIZE.MD,
     marginBottom: 8,
   },
   addSkillText: {
-    fontSize: 14,
-  },
-  titleContainer: {
-    alignItems: "center",
-    backgroundColor: GlobalStyle.primaryPurple.color,
-    color: GlobalStyle.darkGray.color,
-    padding: 20,
-    borderRadius: 8,
-    marginBottom: 15,
-    width: "100%",
+    fontSize: theme.FONT_SIZE.SM,
   },
   skillsContainer: {
     flex: 1,
@@ -35,10 +27,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginHorizontal: 20,
     padding: 16,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: theme.COLORS.GRAY_200,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: GlobalStyle.lightGray.color,
+    borderColor: theme.COLORS.GRAY_400,
   },
   iconContainer: {
     flexDirection: "row",
@@ -57,7 +49,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   lista: {
-    borderColor: GlobalStyle.mediumGray.color,
+    borderColor: theme.COLORS.GRAY_600,
     borderRadius: 5,
     borderWidth: 1,
     padding: 10,
@@ -69,16 +61,18 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   fixedText: {
-    fontSize: 16,
+    fontSize: theme.FONT_SIZE.SM,
     marginRight: 8,
   },
   input: {
     flex: 1,
     height: 25,
-    width: 40,
-    fontSize: 14,
+    width: 30,
+    fontSize: theme.FONT_SIZE.SM,
+    backgroundColor: theme.COLORS.WHITE,
+    color: theme.COLORS.GRAY_700,
     borderWidth: 1,
-    borderColor: GlobalStyle.darkGray.color,
+    borderColor: theme.COLORS.GRAY_700,
     borderRadius: 5,
     paddingLeft: 8,
     marginRight: 8,
@@ -94,45 +88,16 @@ const styles = StyleSheet.create({
   filterContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
   },
   filterInput: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 5,
+    borderWidth: 0,
     paddingHorizontal: 10,
-    marginRight: 10,
+    marginRight: 0,
+    marginTop: 0,
   },
-  sortButton: {
-    backgroundColor: "blue",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-  },
-  sortButtonText: {
-    color: "white",
-    fontWeight: "bold",
-  },
-  paginationContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-  },
-  sizeContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    padding: 10,
-  },
-  sizeSelected: {
-    fontSize: 16,
-    color: "blue",
-  },
-  size: {
-    fontSize: 16,
-    color: "black",
+  containerFilter: {
+    marginBottom: 10,
   },
 });
 
