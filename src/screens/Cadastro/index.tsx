@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { View, Text, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -16,6 +16,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Usuario } from "../../service/api/Types";
 import { adicionarUsuario } from "../../service/api/Api";
 import { SkillsContext } from "../../contexts/SkillsContext";
+import * as yup from "yup";
+
+const schemaCadastro = yup.object().shape({
+  nome: yup.string().required("O campo nome é obrigatório."),
+  email: yup
+    .string()
+    .email("O email não é válido.")
+    .required("O campo email é obrigatório."),
+  senha: yup
+    .string()
+    .min(6, "A senha deve ter pelo menos 6 caracteres.")
+    .required("O campo senha é obrigatório."),
+  confirmarSenha: yup
+    .string()
+    .oneOf([yup.ref("senha"), undefined], "As senhas devem corresponder.")
+    .required("O campo confirmar senha é obrigatório."),
+});
 
 const Cadastro = ({ navigation }: any) => {
   const {
@@ -32,26 +49,24 @@ const Cadastro = ({ navigation }: any) => {
   } = useContext(SkillsContext);
 
   const handleCadastro = async () => {
-    if (
-      nome.length < 3 ||
-      login.length < 10 ||
-      senha.length < 3 ||
-      senha !== confirmarSenha
-    ) {
-      Alert.alert(
-        "Campos obrigatórios",
-        "Por favor, preencha todos os campos corretamente."
-      );
-      return null;
-    }
-
     try {
+      await schemaCadastro.validate({
+        nome,
+        email: login,
+        senha,
+        confirmarSenha,
+      });
       const res = await adicionarUsuario({ nome, login, senha } as Usuario);
       if (res) {
         navigation.navigate("Login");
       }
     } catch (error) {
-      console.error("Erro ao cadastrar usuário:", error);
+      if (error instanceof yup.ValidationError) {
+        Alert.alert("Erro de validação", error.message);
+      } else {
+        console.error("Erro ao cadastrar usuário:", error);
+        Alert.alert("Erro", "Não foi possível cadastrar usuário. Tente novamente mais tarde.");
+      }
     }
 
     setNome("");
