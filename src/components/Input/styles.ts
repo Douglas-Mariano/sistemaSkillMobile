@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 10,
     marginBottom: 10,
     borderWidth: 1,
@@ -26,12 +27,15 @@ const styles = StyleSheet.create({
     marginRight: 10,
     color: theme.COLORS.GRAY_700,
   },
-  monstrarSenha: {
+  inputIcon: {
     position: "absolute",
     top: 0,
     right: 15,
     bottom: 0,
     justifyContent: "center",
+  },
+  iconSearch: {
+    color: theme.COLORS.GRAY_700,
   },
 });
 

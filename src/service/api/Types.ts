@@ -1,3 +1,5 @@
+import { JwtPayload } from "jwt-decode";
+
 export interface Usuario {
   id?: number;
   nome: string;
@@ -23,7 +25,7 @@ export interface SkillsUsuario {
 export interface Pagination {
   filter?: string;
   page?: number;
-  order?: "asc" | "desc"; 
+  order?: "asc" | "desc";
   size?: number;
 }
 
@@ -35,4 +37,9 @@ export interface ApiResponse<T = any> {
 
 export interface ApiError {
   response?: ApiResponse;
+}
+
+export interface TokenResponse extends JwtPayload {
+  userId?: number;
+  nome?: string;
 }

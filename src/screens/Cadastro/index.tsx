@@ -89,7 +89,7 @@ const Cadastro = ({ navigation }: any) => {
                 color="gray"
               />
             }
-            mostrarSenha={() => setMostrarSenha(!mostrarSenha)}
+            onPressIcon={() => setMostrarSenha(!mostrarSenha)}
           />
           <Input
             title="Confirmar Senha"
@@ -108,7 +108,7 @@ const Cadastro = ({ navigation }: any) => {
                 color="gray"
               />
             }
-            mostrarSenha={() => setMostrarSenha(!mostrarSenha)}
+            onPressIcon={() => setMostrarSenha(!mostrarSenha)}
           />
         </View>
         <View style={styles.content}>

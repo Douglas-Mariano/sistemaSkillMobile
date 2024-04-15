@@ -1,54 +1,65 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View, TouchableOpacity, TextInput, Alert, Image, SafeAreaView, FlatList } from 'react-native';
-import { CheckBox } from 'react-native-elements';
-import { deletarSkillsUsuario, atualizarSkillsUsuario, adicionarSkillsUsuario, getSkillsUsuario } from '../../service/api/Api';
-import styles from './styles';
-import { Skill, SkillsUsuario } from '../../service/api/Types';
-import GlobalStyle from '../../styles/GlobalStyle';
-import ConfirmationModal from '../../components/ConfirmationModal';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import AdicionarSkillModal from '../../components/AdicionarSkillModal';
-import Input from '../../components/Input';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from "react";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+  Image,
+  SafeAreaView,
+  FlatList,
+} from "react-native";
+import {
+  deletarSkillsUsuario,
+  atualizarSkillsUsuario,
+  adicionarSkillsUsuario,
+  getSkillsUsuario,
+} from "../../service/api/Api";
+import styles from "./styles";
+import { Skill, SkillsUsuario } from "../../service/api/Types";
+import GlobalStyle from "../../styles/GlobalStyle";
+import ConfirmationModal from "../../components/ConfirmationModal";
+import Icon from "react-native-vector-icons/FontAwesome";
+import AdicionarSkillModal from "../../components/AdicionarSkillModal";
+import Input from "../../components/Input";
+import Header from "../../components/Header";
 
 const Home = () => {
   const [skills, setSkills] = useState<SkillsUsuario[]>([]);
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [modalDeletarVisivel, setModalDeletarVisivel] = useState(false);
   const [idSkillUsuario, setIdSkillUsuario] = useState<number | null>(null);
   const [inputAtualizarVisivel, setInputAtualizarVisivel] = useState(false);
-  const [levelAtualizado, setLevelAtualizado] = useState('');
-  const [modalAdicionarSkillVisivel, setModalAdicionarSkillVisivel] = useState(false);
+  const [levelAtualizado, setLevelAtualizado] = useState("");
+  const [modalAdicionarSkillVisivel, setModalAdicionarSkillVisivel] =
+    useState(false);
 
   const [totalElements, setTotalElements] = useState<number>(0);
 
-const fetchUserSkills = async () => {
-  setLoading(true);
-  try {
-    const response = await getSkillsUsuario(filter, page, order);
-    const { content, totalElements: newTotalElements } = response.data;
-    const newSkills = page === 0 ? content : [...skills, ...content];
-    setSkills(newSkills);
-    setTotalElements(newTotalElements);
-    setPage((prevPage) => prevPage + 1);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-  
+  const fetchUserSkills = async () => {
+    setLoading(true);
+    try {
+      const response = await getSkillsUsuario(filter, page);
+      const { content, totalElements: newTotalElements } = response.data;
+      const newSkills = page === 0 ? content : [...skills, ...content];
+      setSkills(newSkills);
+      setTotalElements(newTotalElements);
+      setPage((prevPage) => prevPage + 1);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!loading) {
       fetchUserSkills();
     }
-  }, [page, order]);
+  }, [page, filter, modalDeletarVisivel, inputAtualizarVisivel]);
 
   const handleDeleteSkill = (idSkillUsuario: number) => {
     setIdSkillUsuario(idSkillUsuario);
@@ -59,9 +70,10 @@ const fetchUserSkills = async () => {
     try {
       if (idSkillUsuario) {
         await deletarSkillsUsuario(idSkillUsuario);
+        setPage(0);
       }
     } catch (error) {
-      console.error('Erro ao deletar a skill do usuário:', error);
+      console.error("Erro ao deletar a skill do usuário:", error);
     } finally {
       setModalDeletarVisivel(false);
       setIdSkillUsuario(null);
@@ -86,22 +98,23 @@ const fetchUserSkills = async () => {
         };
 
         await atualizarSkillsUsuario(idSkillUsuario, skillsUsuarioAtualizada);
+        setPage(0);
 
-        Alert.alert('Level alterado com sucesso!');
+        Alert.alert("Level alterado com sucesso!");
       }
     } catch (error) {
-      console.error('Erro ao atualizar a skill do usuário:', error);
+      console.error("Erro ao atualizar a skill do usuário:", error);
     } finally {
       setInputAtualizarVisivel(false);
       setIdSkillUsuario(null);
-      setLevelAtualizado('');
+      setLevelAtualizado("");
     }
   };
 
   const handleCancelUpdate = () => {
     setInputAtualizarVisivel(false);
     setIdSkillUsuario(null);
-    setLevelAtualizado('');
+    setLevelAtualizado("");
   };
 
   const handleAdicionarSkill = async (novaSkill: Skill, level: number) => {
@@ -111,66 +124,42 @@ const fetchUserSkills = async () => {
         skill: novaSkill,
       };
 
-      console.log(skillsUsuarioNova);
       await adicionarSkillsUsuario(skillsUsuarioNova);
+      setPage(0);
 
-      Alert.alert('Nova skill adicionada com sucesso!');
+      Alert.alert("Nova skill adicionada com sucesso!");
     } catch (error) {
-      console.error('Erro ao adicionar nova skill:', error);
+      console.error("Erro ao adicionar nova skill:", error);
     } finally {
       setModalAdicionarSkillVisivel(false);
     }
   };
 
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handlePrevPage = () => {
-    if (page > 0) {
-      handlePageChange(page - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    handlePageChange(page + 1);
-  };
-
-  const handleToggle = () => {
-    setOrder(order === 'asc' ? 'desc' : 'asc');
+  const handleBuscarSkill = () => {
+    setPage(0);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.titleContainer}>
-        <View style={styles.filterContainer}>
-          <Input
-            style={styles.filterInput}
-            placeholder='Filtrar por nome...'
-            value={filter}
-            onChangeText={setFilter}
-            icon={faSearch}
-            title='Filtrar:'
-          />
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <CheckBox
-              checked={order === 'desc'}
-              onPress={handleToggle}
-              title='Ordenar por level'
-            />
-          </View>
-        </View>
-        <TouchableOpacity
-          style={styles.adicionarSkillButton}
-          onPress={() => setModalAdicionarSkillVisivel(true)}
-        >
-          <Icon name='plus-circle' size={30} color='blue' />
-        </TouchableOpacity>
+      <View style={styles.filterContainer}>
+        <Header onAddSkill={() => setModalAdicionarSkillVisivel(true)} />
       </View>
       <View style={styles.skillsContainer}>
+        <View>
+          <Input
+            style={styles.filterInput}
+            placeholder="Filtrar por nome..."
+            value={filter}
+            onChangeText={setFilter}
+            title="Buscar Skill:"
+            onSearch={handleBuscarSkill}
+          />
+        </View>
         <FlatList
           data={skills}
-          keyExtractor={(item, index) => (item.id ? item.id.toString() : 'default') + '_' + index}
+          keyExtractor={(item, index) =>
+            (item.id ? item.id.toString() : "default") + "_" + index
+          }
           renderItem={({ item }) => (
             <View style={styles.skillItemContainer}>
               <View>
@@ -181,7 +170,7 @@ const fetchUserSkills = async () => {
                   />
                 ) : (
                   <Image
-                    source={require('../../assets/images/imagem.png')}
+                    source={require("../../assets/images/imagem.png")}
                     style={{ width: 50, height: 50, marginRight: 10 }}
                   />
                 )}
@@ -189,7 +178,7 @@ const fetchUserSkills = async () => {
               <View>
                 <Text style={GlobalStyle.texto}>Skill: {item.skill?.nome}</Text>
                 <Text style={GlobalStyle.texto}>
-                  Descrição: {item.skill?.descricao || '...'}
+                  Descrição: {item.skill?.descricao || "..."}
                 </Text>
                 {inputAtualizarVisivel && idSkillUsuario === item.id ? (
                   <View style={styles.updateContainer}>
@@ -204,13 +193,13 @@ const fetchUserSkills = async () => {
                       onPress={handleConfirmUpdate}
                       style={styles.iconButton}
                     >
-                      <Icon name='check' size={20} color='green' />
+                      <Icon name="check" size={20} color="green" />
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={handleCancelUpdate}
                       style={styles.iconButton}
                     >
-                      <Icon name='times' size={20} color='red' />
+                      <Icon name="times" size={20} color="red" />
                     </TouchableOpacity>
                   </View>
                 ) : (
@@ -221,7 +210,7 @@ const fetchUserSkills = async () => {
                       onPress={() => item.id && handleUpdateSkill(item.id)}
                       style={styles.iconButton}
                     >
-                      <Icon name='pencil' size={15} color='blue' />
+                      <Icon name="pencil" size={15} color="blue" />
                     </TouchableOpacity>
                   </View>
                 )}
@@ -231,9 +220,9 @@ const fetchUserSkills = async () => {
                   onPress={() => item.id && handleDeleteSkill(item.id)}
                 >
                   <Icon
-                    name='trash'
+                    name="trash"
                     size={25}
-                    color='red'
+                    color="red"
                     style={styles.icon}
                   />
                 </TouchableOpacity>

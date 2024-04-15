@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, View, Text, TextInput, TouchableOpacity } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import DropDownPicker from "react-native-dropdown-picker";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { obterTodasSkills } from "../../service/api/Api";
 import styles from "./styles";
@@ -18,15 +18,15 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
   onClose,
   onAdicionarSkill,
 }) => {
-  const [nomeSkill, setNomeSkill] = useState("");
+  const [selectedValue, setSelectedValue] = useState(null);
   const [level, setLevel] = useState("");
   const [skills, setSkills] = useState<Skill[]>([]);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const carregarSkills = async () => {
       try {
         const response = await obterTodasSkills();
-        // console.log(response)
         setSkills(response);
       } catch (error) {
         console.error("Erro ao carregar skills:", error);
@@ -37,11 +37,13 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
   }, []);
 
   const handleAdicionar = () => {
-    if (!nomeSkill || !level) {
+    if (!selectedValue || !level) {
       return;
     }
 
-    const skillSelecionada = skills.find((skill) => skill.nome === nomeSkill);
+    const skillSelecionada = skills.find(
+      (skill) => skill.nome === selectedValue
+    );
 
     if (!skillSelecionada) {
       return;
@@ -49,7 +51,7 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
 
     onAdicionarSkill(skillSelecionada, parseInt(level));
 
-    setNomeSkill("");
+    setSelectedValue(null);
     setLevel("");
     onClose();
   };
@@ -66,16 +68,19 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
           <Text style={[GlobalStyle.titulo, styles.modalTitle]}>
             Adicionar Nova Skill
           </Text>
-          <Picker
-            selectedValue={nomeSkill}
-            onValueChange={(itemValue, itemIndex) => setNomeSkill(itemValue)}
-            style={styles.input}
-          >
-            <Picker.Item label="" value="" />
-            {skills.map((skill, index) => (
-              <Picker.Item key={index} label={skill.nome} value={skill.nome} />
-            ))}
-          </Picker>
+          <DropDownPicker
+            items={skills.map((skill) => ({
+              label: skill.nome,
+              value: skill.nome,
+            }))}
+            open={open}
+            value={selectedValue}
+            setOpen={setOpen}
+            setValue={setSelectedValue}
+            setItems={(items) => setSkills(items)}
+            containerStyle={{ height: 40 }}
+            style={{ backgroundColor: "#fafafa" }}
+          />
           <TextInput
             style={styles.input}
             placeholder="Level"
@@ -91,18 +96,8 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
               ]}
               onPress={handleAdicionar}
             >
-              <Icon
-                name="check"
-                size={25}
-                color={"green"}
-              />
-              <Text
-                style={
-                  styles.textoBotao
-                 }
-              >
-                Confirmar
-              </Text>
+              <Icon name="check" size={25} color={"green"} />
+              <Text style={styles.textoBotao}>Confirmar</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -111,18 +106,8 @@ const AdicionarSkillModal: React.FC<AdicionarSkillModalProps> = ({
               ]}
               onPress={onClose}
             >
-              <Icon
-                name="times"
-                size={25}
-                color={"red"}
-              />
-              <Text
-                style={
-                  styles.textoBotao
-                }
-              >
-                Cancelar
-              </Text>
+              <Icon name="times" size={25} color={"red"} />
+              <Text style={styles.textoBotao}>Cancelar</Text>
             </TouchableOpacity>
           </View>
         </View>

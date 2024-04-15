@@ -12,13 +12,15 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import styles from "./styles";
 import GlobalStyle from "../../styles/GlobalStyle";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 interface InputProps extends TextInputProps {
   customStyle?: StyleProp<ViewStyle>;
-  icon: IconDefinition;
+  icon?: IconDefinition;
   title: string;
   rightIcon?: React.ReactNode;
-  mostrarSenha?: () => void;
+  onPressIcon?: () => void;
+  onSearch?: () => void;
 }
 
 const Input = ({
@@ -27,27 +29,46 @@ const Input = ({
   customStyle,
   icon,
   rightIcon,
-  mostrarSenha,
+  onPressIcon,
+  onSearch,
   ...props
 }: InputProps) => {
   return (
     <View>
-      <Text style={GlobalStyle.texto}>{title}</Text>
-      <View
-        style={[
-          styles.inputContainer,
-          styles.inputContainerCustom,
-          customStyle,
-        ]}
-      >
-        <FontAwesomeIcon icon={icon} size={20} style={styles.icon} />
-        <TextInput style={[styles.input, style]} {...props} />
-        {rightIcon && (
-          <TouchableOpacity style={styles.monstrarSenha} onPress={mostrarSenha}>
-            {rightIcon}
-          </TouchableOpacity>
-        )}
-      </View>
+      {icon ? (
+        <View>
+          <Text style={GlobalStyle.texto}>{title}</Text>
+          <View
+            style={[
+              styles.inputContainer,
+              styles.inputContainerCustom,
+              customStyle,
+            ]}
+          >
+            <FontAwesomeIcon icon={icon} size={20} style={styles.icon} />
+            <TextInput style={[styles.input, style]} {...props} />
+            {rightIcon && (
+              <TouchableOpacity style={styles.inputIcon} onPress={onPressIcon}>
+                {rightIcon}
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+      ) : (
+        <View>
+          <Text style={GlobalStyle.texto}>{title}</Text>
+          <View style={[styles.inputContainer, customStyle]}>
+            <TextInput {...props} />
+            <TouchableOpacity onPress={onSearch}>
+              <FontAwesomeIcon
+                icon={faSearch}
+                size={20}
+                style={styles.iconSearch}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
   );
 };

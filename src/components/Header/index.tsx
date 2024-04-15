@@ -6,10 +6,11 @@ import styles from "./styles";
 
 interface HeaderProps {
   navigation?: any;
-  title: string;
+  // title: string;
+  onAddSkill?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ navigation, title }) => {
+const Header: React.FC<HeaderProps> = ({ navigation, onAddSkill }) => {
   const handleLogout = async () => {
     try {
       await deslogar();
@@ -24,9 +25,13 @@ const Header: React.FC<HeaderProps> = ({ navigation, title }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handleLogout}>
-        <Icon name="sign-out" size={20} style={styles.logoutButton} />
+        <Icon name="sign-out" size={20} style={styles.button} />
       </TouchableOpacity>
-      <Text style={styles.title}>{title}</Text>
+      {onAddSkill && (
+        <TouchableOpacity onPress={onAddSkill}>
+          <Icon name="plus-circle" size={20} style={styles.button} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

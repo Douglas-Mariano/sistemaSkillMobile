@@ -1,5 +1,11 @@
 import axios, { AxiosError } from "axios";
-import { ApiResponse, ApiError, Usuario, Skill, SkillsUsuario } from "./Types";
+import {
+  ApiResponse,
+  ApiError,
+  Usuario,
+  Skill,
+  SkillsUsuario,
+} from "./Types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const api = axios.create({
@@ -42,7 +48,6 @@ export const logarUsuario = async (
   login: string,
   senha: string
 ): Promise<string> => {
-  console.log(login, senha);
   try {
     const response = await api.post("/auth/login", { login, senha });
     const token = response.data.token;
@@ -84,25 +89,22 @@ export const getSkillsUsuario = async (
   filter = "",
   page = 0,
   order = "",
-  size = 5,
+  size = 5
 ): Promise<ApiResponse> => {
   try {
     const sortParam = order === "asc" ? "asc" : "desc";
     const url = `/skillsUsuario?nome=${filter}&page=${page}&size=${size}&sort=level,${sortParam}`;
-    console.log("URL da requisição: ", url);
-
     const response = await api.get(url);
     return response;
   } catch (error) {
     const apiError = error as AxiosError<ApiError>;
-    throw apiError.response?.data;
+    throw apiError.response?.data.response;
   }
 };
 
 export const adicionarSkillsUsuario = async (
   skillsUsuario: SkillsUsuario
 ): Promise<ApiResponse<SkillsUsuario>> => {
-  console.log(skillsUsuario);
   try {
     const response = await api.post("/skillsUsuario", skillsUsuario);
     return response.data;

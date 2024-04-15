@@ -82,7 +82,7 @@ const Login = ({ navigation }: any) => {
                 color="gray"
               />
             }
-            mostrarSenha={() => setMostrarSenha(!mostrarSenha)}
+            onPressIcon={() => setMostrarSenha(!mostrarSenha)}
           />
           <CheckBox
             title="Lembrar-me"

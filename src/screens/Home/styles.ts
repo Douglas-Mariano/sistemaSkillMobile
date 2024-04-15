@@ -1,11 +1,9 @@
-// styles.ts
 import { StyleSheet } from "react-native";
 import GlobalStyle from "../../styles/GlobalStyle";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: GlobalStyle.darkGray.color,
     margin: 2,
     borderRadius: 8,
   },
